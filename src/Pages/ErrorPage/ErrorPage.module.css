@@ -1,0 +1,40 @@
+.container {
+    height: 100vh;
+    width: 100%;
+    padding: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+.container img{
+    height: 200px;
+    width: 300px;
+}
+.container h2{
+    font-size: var(--h2FontSize);
+    font-weight: var(--h1FontWeight);
+    margin: 2rem auto;
+}
+.container a{
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1.5rem;
+    background-color: var(--primaryColor);
+    font-size: var(--h3FontSize);
+    font-weight: var(--h3FontWeight);
+    transition: all 0.5s ease-in-out;
+    border-radius: 5px;
+}
+.container a:hover,
+.container a:active{
+    background-color: var(--secondaryColor);
+}
+ @media screen and (max-width: 600px) {
+    .container img{
+        height: 150px;
+        width: 250px;
+    }
+ }
+

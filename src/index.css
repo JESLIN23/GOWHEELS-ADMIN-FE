@@ -1,13 +1,62 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+
+:root {
+  --bgColor1: #fcfcfc;
+  --bgColor2: #faf7fd;
+  --dividerColor:  rgb(170, 165, 165);
+
+  --primaryColor: #43d7c8;
+  --btnColor: #00cdb8;
+  --secondaryColor: #18776d;
+
+  --h1FontSize: 32px;
+  --h2FontSize: 24px;
+  --h3FontSize: 18px;
+  --h4FontSize: 12px;
+  --h5FontSize: 14px;
+
+  --h1FontWeight: 800;
+  --h2FontWeight: 700;
+  --h3FontWeight: 600;
+  --h4FontWeight: 600;
+
+  --btnRadious: 5px;
+  --boxRadious: 10px;
+
+  --transition: all 0.5s ease-in-out;
+ }
+
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+  font-family: 'Roboto', sans-serif;
+  scroll-behavior: smooth;
+}
+*::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  background-color: #f5f5f5;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+*::-webkit-scrollbar {
+  width: 10px;
+  background-color: #f5f5f5;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+div#root {
+  height: 100%;
 }
