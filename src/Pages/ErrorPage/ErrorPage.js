@@ -8,7 +8,7 @@ function ErrorPage() {
     <div className={styles.container}>
         <img src={carimg} alt="car image" />
         <h2>Page Not found</h2>
-        <Link to='/home'>go home</Link>
+        <Link to='/dashboard'>go home</Link>
     </div>
   )
 }

@@ -21,6 +21,7 @@
 //     "no-multiple-empty-lines": "off",
 //     "newline-after-import": 0,
 //     "no-console": 0
-        "react/prop-types": "off"
+        "react/prop-types": "off",
+        "react/no-unknown-property": 0
     }
 }

@@ -1,0 +1,11 @@
+.image{
+    min-height:50px;
+    max-height: 50px;
+    background-size:contain !important;
+    margin:5px;
+    justify-content: center;
+}
+
+.columnCell{
+    font-weight:700 !important;
+}
