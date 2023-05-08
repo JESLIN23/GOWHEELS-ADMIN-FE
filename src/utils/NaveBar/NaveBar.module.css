@@ -1,0 +1,80 @@
+.navLinkIcon {
+  font-size: 12px;
+  color: #fff;
+}
+
+.logoutWrapper {
+  position: absolute;
+  display: flex;
+  text-align: center;
+  bottom: 0;
+  padding: 10px;
+  padding-left: 50px;
+  border-radius: 7px;
+  color: #fff;
+  transition: 1s background-image ease-in-out, 0.2s color;
+}
+
+.baseWrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.navBar {
+  width: 200px;
+  height: 100%;
+  padding-bottom: 90px !important;
+}
+
+.navSubMenuItem{
+  display: flex;
+  padding: 10px;
+  color: white;
+  padding-left: 20px;
+  background-color: #32b4a7;
+}
+.navSubMenuItem h5{
+  padding-left: 15px;
+  cursor: pointer;
+}
+
+.navLinkWrapper {
+  display: flex;
+  padding: 10px;
+  border-radius: 4px;
+  color: white;
+  font-weight: 500;
+  transition: 1s background-image ease-in-out, 0.2s color;
+}
+
+.navLinkWrapper:hover {
+  background-color: var(--secondaryColor);
+  color: white;
+}
+.navLinkWrapper:hover .navLink {
+  color: white;
+}
+.activeNavLink {
+  background-color: var(--secondaryColor);
+  color: white;
+}
+.navLinkIcon {
+  font-size: 20px !important;
+} 
+.navLink {
+  padding-left: 15px;
+  font-size: 16px;
+  display: grid;
+  place-items: center;
+}
+.subMenuLink {
+  padding-left: 15px;
+  font-size: 12px;
+  display: grid;
+  place-items: center;
+}
+.subMenuLinkIcon {
+  font-size: 18px !important;
+}

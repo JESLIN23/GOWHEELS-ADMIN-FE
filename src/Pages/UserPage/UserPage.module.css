@@ -1,0 +1,67 @@
+.contentWrapper {
+    padding: 10px;
+  }
+  .titleSec {
+      padding-bottom: 10px;
+    }
+    .title {
+      font-size: 24px;
+      font-weight: 500;
+      margin: 0;
+    }
+    .menuName {
+        font-size: 15px;
+        font-weight: 400;
+        padding-left: 8px;
+        color: gray;
+      }
+    .changeable {
+      background-color: #fff;
+      border-top: 1px solid #d2d6de;
+      margin-top: 10px;
+      border-radius: 5px;
+      padding: 13px;
+    }
+.searchPart {
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border-radius: 5px;
+  margin-top: 10px;
+  border-top: 1px solid #d2d6de;
+}
+.secondTitle {
+  font-size: 16px;
+  font-weight: 400;
+}
+.searchSec {
+  padding: 5px;
+  margin-left: 20px;
+  min-width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border: 1px solid rgba(0, 0, 1, 0.1);
+}
+.serachSec:focus-within {
+  border-color: black;
+}
+.searchInput {
+  border: none;
+  width: 80%;
+  font-size: 17px;
+}
+.searchInput::placeholder {
+  font-size: 15px;
+  color: rgba(0, 0, 1, 0.3);
+}
+.searchInput:focus-visible {
+  outline: none;
+}
+.searchIcon {
+  font-size: 28px;
+}

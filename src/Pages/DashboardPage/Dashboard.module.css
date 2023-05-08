@@ -1,0 +1,31 @@
+.contentWrapper {
+  padding: 10px;
+}
+.titleSec {
+    padding-bottom: 10px;
+  }
+  .title {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0;
+  }
+  .menuName {
+    font-size: 15px;
+    font-weight: 400;
+    padding-left: 8px;
+    color: gray;
+  }
+  .changeable {
+    background-color: #fff;
+    border-top: 1px solid #d2d6de;
+    margin-top: 10px;
+    border-radius: 5px;
+    padding: 13px;
+  }
+  .chartTitle {
+    font-size: 18px;
+  }
+  .chart {
+    font-family: sans-serif;
+    text-align: center;
+  }
