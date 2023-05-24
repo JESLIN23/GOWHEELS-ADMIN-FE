@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import ProtectRoute from '../../components/ProtectRoute';
-import PersistLogin from '../../components/PersistLogin';
 
 import styles from './UserPage.module.css';
 import Loader from './../../utils/Loading/loading';
@@ -12,11 +11,9 @@ import SearchIcon from '@mui/icons-material/Search';
 
 export default function UserPage() {
   return (
-    <PersistLogin>
-      <ProtectRoute>
-        <User />
-      </ProtectRoute>
-    </PersistLogin>
+    <ProtectRoute>
+      <User />
+    </ProtectRoute>
   );
 }
 

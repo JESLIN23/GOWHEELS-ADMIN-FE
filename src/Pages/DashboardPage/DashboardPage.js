@@ -3,7 +3,6 @@ import React from 'react';
 import styles from './Dashboard.module.css';
 import ProtectRoute from '../../components/ProtectRoute';
 import Grid from '@mui/material/Grid';
-//import PersistLogin from '../../components/PersistLogin';
 
 import {
   Chart as ChartJS,

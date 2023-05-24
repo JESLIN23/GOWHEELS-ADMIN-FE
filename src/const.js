@@ -10,7 +10,7 @@ export const ROUTES = {
     REGISTER: '/signup',
 }
 
-export const STORAGE_KEY = {
+export const STORAGE_KEYS = {
     ACCESS_TOKEN: 'gowheels-auth-accesstoken',
     REFRESH_TOKEN: 'gowheels-auth-refreshtoken',
     USER_ID: 'gowheels-auth-user-id',
