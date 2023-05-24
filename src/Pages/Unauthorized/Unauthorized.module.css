@@ -1,0 +1,19 @@
+.wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--secondaryColor)
+}
+.icon {
+    color: var(--primaryColor);
+    font-family: 40px;
+}
+.heading {
+    color: white;
+    font-size: 25px;
+    font-weight: 600;
+    padding-top: 10px;
+}

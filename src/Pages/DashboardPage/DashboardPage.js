@@ -1,9 +1,9 @@
 import React from 'react';
-
 // import Loader from '../../utils/Loading/loading';
 import styles from './Dashboard.module.css';
-
+import ProtectRoute from '../../components/ProtectRoute';
 import Grid from '@mui/material/Grid';
+//import PersistLogin from '../../components/PersistLogin';
 
 import {
   Chart as ChartJS,
@@ -27,14 +27,18 @@ ChartJS.register(
   Legend
 );
 
+export default function DashboardPage() {
+  return (
+      <ProtectRoute>
+        <Dashboard />
+      </ProtectRoute>
+  );
+}
 
-function DashboardPage() {
+function Dashboard() {
   // const [loadingIndicator, setLoadingIndicator] = useState(false);
   // const [salesGraphData, setSalesGraphData] = useState();
 
-  
-
- 
   // console.log(salesGraphData);
   const datas = [
     { year: 2010, count: 10 },
@@ -48,18 +52,20 @@ function DashboardPage() {
 
   const data = {
     labels: datas.map((date) => date.year),
-    datasets: [{
-      data: datas.map((val) => val.count),
-      fill: false,
-      borderColor: 'rgb(75, 192, 192)',
-      tension: 0.1,
-      label: 'Sales graph',
-      position: 'bottom',
-      backgroundColor: '#605ca8',
-    }]
+    datasets: [
+      {
+        data: datas.map((val) => val.count),
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1,
+        label: 'Sales graph',
+        position: 'bottom',
+        backgroundColor: '#605ca8',
+      },
+    ],
   };
   // const salesReportData = useCallback( async () => {
-    
+
   // }, []);
 
   // useEffect(() => {
@@ -80,14 +86,10 @@ function DashboardPage() {
         </div>
         <Grid container spacing={3}>
           <Grid item sm={12} className={styles.chart}>
-            <Line
-              data={data}
-            />
+            <Line data={data} />
           </Grid>
         </Grid>
       </div>
     </div>
   );
 }
-
-export default DashboardPage;

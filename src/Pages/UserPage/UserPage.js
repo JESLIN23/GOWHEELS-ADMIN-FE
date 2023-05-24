@@ -1,15 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import ProtectRoute from '../../components/ProtectRoute';
+import PersistLogin from '../../components/PersistLogin';
 
 import styles from './UserPage.module.css';
 import Loader from './../../utils/Loading/loading';
 import Info from './../../utils/Alerts/Info';
 import DataTable from '../../utils/DataTable/DataTable';
 import ConfirmPopup from '../../utils/Alerts/ConfirmPopup';
-import UserServices from '../../services/UserServices'
-
+import UserServices from '../../services/UserServices';
 import SearchIcon from '@mui/icons-material/Search';
 
-function UserPage() {
+export default function UserPage() {
+  return (
+    <PersistLogin>
+      <ProtectRoute>
+        <User />
+      </ProtectRoute>
+    </PersistLogin>
+  );
+}
+
+function User() {
   const [loadingIndicator, setLoadingIndicator] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [users, setUsers] = useState([]);
@@ -97,16 +108,23 @@ function UserPage() {
     setFilteredUsers(searchUsers);
   };
 
-  const getUsers = async () => {
-    setLoadingIndicator(true);
-    const res = await UserServices.getUsers()
-    setUsers(res);
-    setFilteredUsers(res);
-    setLoadingIndicator(false);
-  };
-
   useEffect(() => {
-    getUsers().then();
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getUsers = async () => {
+      setLoadingIndicator(true);
+      const res = await UserServices.getUsers();
+      isMounted && setUsers(res);
+      isMounted && setFilteredUsers(res);
+      setLoadingIndicator(false);
+    };
+    getUsers();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
   }, []);
 
   useEffect(() => {
@@ -171,5 +189,3 @@ function UserPage() {
     </div>
   );
 }
-
-export default UserPage;

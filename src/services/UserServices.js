@@ -1,9 +1,12 @@
-import { ROUTES } from '../const';
-import BackendServices from './BackendServices';
+import ApiHelper from '../helpers/ApiHelper';
 
 const getUsers = async () => {
-  const path = `${ROUTES.USERS}`;
-  const users = await BackendServices.get(path)
+  const url ='/users';
+  const users = await ApiHelper.privateRequest({
+    url,
+    methord: 'GET',
+    signal: AbortController.signal,
+  });
   return users;
 };
 

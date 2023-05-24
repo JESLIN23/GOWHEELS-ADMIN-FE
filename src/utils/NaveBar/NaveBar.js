@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './NaveBar.module.css';
 import { Link, useLocation, matchPath } from 'react-router-dom';
 
 import NavConfig from './NavConfig';
+import UserContext from '../../context/UserContext';
+import AlertMessageContext from '../../context/AlertMessageContext';
 
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import Grid from '@mui/material/Grid';
 
 function NaveBar() {
+  const { initiateLogout } = useContext(UserContext);
+  const { postErrorAlert } = useContext(AlertMessageContext);
   const { pathname } = useLocation();
   const match = (path) => (path ? matchPath(`${path}/*`, pathname) : false);
+
+  const handleLogout = async () => {
+    try {
+      await initiateLogout();
+    } catch (error) {
+      console.log(error);
+      postErrorAlert(error.message);
+    }
+  };
   return (
     <Grid container spacing={1}>
       <Grid item xs={12} className={styles.navBar}>
@@ -46,7 +59,11 @@ function NaveBar() {
           );
         })}
 
-        <Link key="logout" className={styles.logoutWrapper}>
+        <Link
+          key="logout"
+          className={styles.logoutWrapper}
+          onClick={handleLogout}
+        >
           <LogoutOutlinedIcon className={styles.navLinkIcon} />
           <span className={styles.navLink}>Logout</span>
         </Link>

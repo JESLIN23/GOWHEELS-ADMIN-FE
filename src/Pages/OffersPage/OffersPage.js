@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
+import ProtectRoute from '../../components/ProtectRoute';
+import PersistLogin from '../../components/PersistLogin';
 
-function OffersPage() {
+export default function OffersPage() {
   return (
-    <div>OffersPage</div>
-  )
+    <PersistLogin>
+      <ProtectRoute>
+        <Offers />
+      </ProtectRoute>
+    </PersistLogin>
+  );
 }
 
-export default OffersPage
+function Offers() {
+  return <div>OffersPage</div>;
+}

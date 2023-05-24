@@ -10,6 +10,7 @@ import RootLayout from './components/Layout/RootLayout/RootLayout';
 import Offers from './Pages/OffersPage/OffersPage';
 import LoginPage from './Pages/LoginPage/LoginPage';
 import UserLayout from './components/Layout/UserLayout/UserLayout';
+import Unauthorized from './Pages/Unauthorized/Unauthorized';
 
 const router = createBrowserRouter([
   {
@@ -26,10 +27,13 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/login',
+    path: '/',
     element: <UserLayout />,
     errorElement: <ErrorPage />,
-    children: [{ index: true, element: <LoginPage /> }],
+    children: [
+      { path: 'login', element: <LoginPage /> },
+      { path: 'unauthorized', element: <Unauthorized /> },
+    ],
   },
 ]);
 
