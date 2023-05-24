@@ -5,9 +5,9 @@ export const ROUTES = {
     CARS: '/cars',
     USERS: '/users',
     BOOKING: '/booking',
-    DEACTIVATEDUSER: '/users/deactivated',
+    DEACTIVATEDUSER: '/deactivated',
     LOGIN: '/login',
-    REGISTER: '/signup'
+    REGISTER: '/signup',
 }
 
 export const STORAGE_KEY = {
@@ -21,3 +21,6 @@ export const STORAGE_KEY = {
 export const HEADERS = {
     AUTH: 'Authentication'
 }
+
+export const DEFAULT_ERROR_MESSAGE = 
+  "Oops, Something went wrong. If this persists, please contact us.";

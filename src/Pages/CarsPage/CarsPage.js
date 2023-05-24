@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
+import ProtectRoute from '../../components/ProtectRoute';
+import PersistLogin from '../../components/PersistLogin';
 
-function CarsPage() {
+export default function CarsPage() {
   return (
-    <div>CarsPage</div>
-  )
+    <PersistLogin>
+      <ProtectRoute>
+        <Cars />
+      </ProtectRoute>
+    </PersistLogin>
+  );
 }
 
-export default CarsPage
+function Cars() {
+  return <div>CarsPage</div>;
+}

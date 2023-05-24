@@ -1,9 +1,17 @@
-import React from 'react'
+import React from 'react';
+import ProtectRoute from '../../components/ProtectRoute';
+import PersistLogin from '../../components/PersistLogin';
 
-function BookingPage() {
+export default function BookingPage() {
   return (
-    <div>BookingPage</div>
-  )
+    <PersistLogin>
+      <ProtectRoute>
+        <Booking />
+      </ProtectRoute>
+    </PersistLogin>
+  );
 }
 
-export default BookingPage
+function Booking() {
+  return <div>BookingPage</div>;
+}

@@ -1,26 +1,20 @@
-import { STORAGE_KEY, BACKEND_URL } from '../const';
 import ApiHelper from '../helpers/ApiHelper';
 
-const login = async (data = {}) => {
-  const path = `${BACKEND_URL}/auth/login`;
-  const response = await ApiHelper.request({ path, method: 'POST', data });
-
-  localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN, response.accessToken);
-
-  return response.data.user;
+const login = async (data) => {
+  const url = `/auth/login`;
+  const response = await ApiHelper.request({ url, method: 'POST', data });
+  return response;
 };
 
 const logout = async () => {
-  const path = `${BACKEND_URL}/auth/logout`;
-  return await ApiHelper.request({ path, method: 'POST', requireAuth: true });
+  const url = `/auth/logout`;
+  const response = await ApiHelper.privateRequest({ url, method: 'DELETE', requireAuth: true });
+  return response;
 };
-
-const resetPassword = async () => {};
 
 const AuthService = {
   login,
   logout,
-  resetPassword,
 };
 
 export default AuthService;

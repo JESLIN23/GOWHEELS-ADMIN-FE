@@ -1,9 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './LoginPage.module.css';
 import Loader from '../../utils/Loading/loading';
-import { ROUTES } from '../../const';
+import userContextHook from '../../hooks/userContextHook';
+import AlertMessageContext from '../../context/AlertMessageContext';
 import UserContext from '../../context/UserContext';
 
 import {
@@ -20,12 +21,16 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 function LoginPage() {
-  const [loginData, setLoginData] = useState({});
+  const [data, setData] = useState({});
   const [dataError, setDataError] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { user } = useContext(UserContext);
 
-  const { initiateLogin } = useContext(UserContext);
+  const { initiateLogin } = userContextHook();
+  const { postErrorAlert } = useContext(AlertMessageContext);
+  const from = location.state?.from?.pathname || '/dashboard';
+
   const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -33,12 +38,19 @@ function LoginPage() {
     event.preventDefault();
   };
 
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    navigate(from, { replace: true });
+  }, [user]);
+
   const userLoginHandler = async () => {
     const _error = {};
-    if (!loginData.username) {
+    if (!data.email) {
       _error.username = 'Username is mandatory';
     }
-    if (!loginData.password) {
+    if (!data.password) {
       _error.password = 'Password is mandatory';
     }
 
@@ -48,14 +60,10 @@ function LoginPage() {
     }
     setIsLoading(true);
     try {
-      await initiateLogin(loginData);
-      navigate(ROUTES.DASHBOARD);
+      await initiateLogin(data);
+      navigate(from, { replace: true });
     } catch (error) {
-      console.error(error);
-      setDataError({
-        ...dataError,
-        password: 'Username or password is incorrect',
-      });
+      postErrorAlert(error.message);
     }
     setIsLoading(false);
   };
@@ -65,25 +73,23 @@ function LoginPage() {
       <div className={styles.wrapper}>
         <div className={styles.login}>
           <h2>LOGIN</h2>
-          <Grid container xs={12}>
+          <Grid container>
             <Grid item xs={12}>
               <TextField
                 label="Username"
                 placeholder="Enter Username"
                 name="email"
-                defaultValue={loginData.username || ''}
-                onChange={(username) =>
-                  setLoginData({ ...loginData, username })
+                defaultValue={data.email || ''}
+                onChange={(email) =>
+                  setData({ ...data, email: email.target.value })
                 }
                 variant="outlined"
                 fullWidth
                 sx={{ mb: 2 }}
                 type="email"
                 className={styles.input}
-                error={dataError.username}
-                helperText={
-                  dataError.username ? 'Please enter a valid email' : ''
-                }
+                error={Boolean(dataError.email)}
+                helperText={dataError.email ? 'Please enter a valid email' : ''}
               />
             </Grid>
             <Grid item xs={12}>
@@ -95,16 +101,15 @@ function LoginPage() {
                   id="outlined-adornment-password"
                   placeholder="Enter Your Password"
                   name="password"
-                  defaultValue={loginData.password || ''}
+                  defaultValue={data.password || ''}
                   onChange={(password) =>
-                    setLoginData({ ...loginData, password })
+                    setData({ ...data, password: password.target.value })
                   }
                   variant="outlined"
                   sx={{ mb: 2 }}
                   type={showPassword ? 'text' : 'password'}
                   className={styles.input}
-                  error={dataError.password}
-                  helperText={dataError.password ? 'Password is incorrect' : ''}
+                  error={Boolean(dataError.password)}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -124,14 +129,13 @@ function LoginPage() {
           </Grid>
           <div className={styles.btn}>
             <Button
-              className={styles.btn}
               onClick={userLoginHandler}
               type="submit"
               disabled={isLoading}
               fullWidth
             >
-              <Loader isLoading={isLoading} />
               Sign in
+              <Loader isOpen={isLoading} />
             </Button>
           </div>
         </div>
