@@ -4,13 +4,19 @@ export const ROUTES = {
     DASHBOARD: '/dashboard',
     CARS: '/cars',
     USERS: '/users',
+    ACTIVEUSERS: '/users?active=true',
+    DEACTIVEUSERS: '/users?active=false',
     BOOKING: '/booking',
-    DEACTIVATEDUSER: '/deactivated',
+    DEACTIVEUSER: '/deactive-user',
     LOGIN: '/login',
     REGISTER: '/signup',
+    OFFLINE: '/offline',
+    UNAUTHORIZED: '/unauthorized',
+    OFFERS: '/offers',
+    USERDETAILS: '/users/:userId'
 }
 
-export const STORAGE_KEY = {
+export const STORAGE_KEYS = {
     ACCESS_TOKEN: 'gowheels-auth-accesstoken',
     REFRESH_TOKEN: 'gowheels-auth-refreshtoken',
     USER_ID: 'gowheels-auth-user-id',

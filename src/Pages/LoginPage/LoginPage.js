@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './LoginPage.module.css';
 import Loader from '../../utils/Loading/loading';
 import userContextHook from '../../hooks/userContextHook';
-import AlertMessageContext from '../../context/AlertMessageContext';
+// import AlertMessageContext from '../../context/AlertMessageContext';
 import UserContext from '../../context/UserContext';
 
 import {
@@ -16,6 +16,7 @@ import {
   InputAdornment,
   IconButton,
   Button,
+  FormHelperText,
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -28,7 +29,7 @@ function LoginPage() {
   const { user } = useContext(UserContext);
 
   const { initiateLogin } = userContextHook();
-  const { postErrorAlert } = useContext(AlertMessageContext);
+  // const { postErrorAlert } = useContext(AlertMessageContext);
   const from = location.state?.from?.pathname || '/dashboard';
 
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ function LoginPage() {
       await initiateLogin(data);
       navigate(from, { replace: true });
     } catch (error) {
-      postErrorAlert(error.message);
+      setDataError({ ...dataError, password: error.message });
     }
     setIsLoading(false);
   };
@@ -89,7 +90,7 @@ function LoginPage() {
                 type="email"
                 className={styles.input}
                 error={Boolean(dataError.email)}
-                helperText={dataError.email ? 'Please enter a valid email' : ''}
+                helperText={dataError.email ? dataError.email : ''}
               />
             </Grid>
             <Grid item xs={12}>
@@ -124,6 +125,12 @@ function LoginPage() {
                   }
                   label="Password"
                 />
+                <FormHelperText
+                  id="outlined-weight-helper-text"
+                  error={Boolean(dataError.password)}
+                >
+                  {dataError.password ? dataError.password : ''}
+                </FormHelperText>
               </FormControl>
             </Grid>
           </Grid>
