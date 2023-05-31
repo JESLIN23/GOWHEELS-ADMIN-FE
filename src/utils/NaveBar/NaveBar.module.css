@@ -46,7 +46,7 @@
   padding: 14px 20px;
   border-radius: 4px;
   color: white;
-  font-weight: 500;
+  font-weight: 400;
   transition: 1s background-image ease-in-out, 0.2s color;
 }
 
@@ -67,6 +67,7 @@
 .navLink {
   padding-left: 15px;
   font-size: 16px;
+  font-weight: 300;
   display: grid;
   place-items: center;
 }

@@ -3,11 +3,10 @@ import { STORAGE_KEYS } from '../const';
 
 const login = async (data) => {
   const url = `/auth/login`;
-  const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
   const response = await ApiHelper.request({
     url,
     method: 'POST',
-    data: { ...data, refreshToken },
+    data,
   });
 
   localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, response.accessToken);
@@ -17,8 +16,11 @@ const login = async (data) => {
 };
 
 const logout = async () => {
-  const url = `/auth/logout`;
   const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
+  if (!refreshToken) {
+    return;
+  }
+  const url = `/auth/logout`;
   const response = await ApiHelper.request({
     url,
     method: 'DELETE',
@@ -26,15 +28,23 @@ const logout = async () => {
     requireAuth: true,
   });
 
-  localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
-  localStorage.removeItem(STORAGE_KEYS.REFRESH_TOKEN);
-
   return response;
+};
+
+const getUserProfile = async () => {
+  const url = `/auth/user-profile`;
+  const response = await ApiHelper.request({
+    url,
+    method: 'GET',
+    requireAuth: true,
+  });
+  return response.data.user;
 };
 
 const AuthService = {
   login,
   logout,
+  getUserProfile,
 };
 
 export default AuthService;

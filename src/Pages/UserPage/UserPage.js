@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ProtectRoute from '../../components/ProtectRoute';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './UserPage.module.css';
 import Loader from './../../utils/Loading/loading';
@@ -8,6 +10,9 @@ import DataTable from '../../utils/DataTable/DataTable';
 import ConfirmPopup from '../../utils/Alerts/ConfirmPopup';
 import UserServices from '../../services/UserServices';
 import SearchIcon from '@mui/icons-material/Search';
+import AlertMessageContext from '../../context/AlertMessageContext';
+import { ROUTES } from '../../const';
+// import UserDetails from '../../components/Popups/UserDetails/UserDetails';
 
 export default function UserPage() {
   return (
@@ -22,20 +27,60 @@ function User() {
   const [searchText, setSearchText] = useState('');
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [deleteData, setDeleteData] = useState();
+  const [userActivityData, setUserActivityData] = useState({});
+  const [userDetails, setUserDetails] = useState({});
+  const [userManagement, setUserManagement] = useState(true);
 
-  const handleDeleteClick = (data) => {
-    setDeleteData(data);
+  const [searchParams] = useSearchParams();
+  const { postErrorAlert, postSuccessAlert } = useContext(AlertMessageContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const newParams = Object.fromEntries([...searchParams]);
+    if (newParams?.active === 'false') {
+      setUserManagement(false);
+    } else {
+      setUserManagement(true);
+    }
+    //  setUserManagement(searchParams.get('active'));
+  }, [searchParams]);
+
+  const handleUserClick = (data) => {
+    setUserActivityData(data);
   };
 
-  const handleDeleteUser = () => {};
+  const handleUserActivity = useCallback(async () => {
+    setLoadingIndicator(true);
+    try {
+      let data;
+      if (userActivityData?.active === true) {
+        data = { active: false };
+      } else {
+        data = { active: true };
+      }
+      const response = await UserServices.updateUser(userActivityData._id, data);
+      let successMsg;
+      if (response?.active === false) {
+        successMsg = 'User deactivated successfully';
+      } else {
+        successMsg = 'User activated successfully';
+      }
+      postSuccessAlert(successMsg);
+      await getUsers()
+    } catch (error) {
+      postErrorAlert(error.message);
+    }
+    setLoadingIndicator(false);
+  }, [userActivityData]);
 
-  const toggleDetailsTab = () => {};
+  const toggleDetailsTab = async (data) => {
+    setUserDetails(data);
+  };
 
-  const headerData = [
+  const activeUsersHeaderData = [
     {
-      id: 'id',
-      label: 'Id',
+      id: 'no',
+      label: 'No',
       type: 'text',
     },
     {
@@ -54,27 +99,60 @@ function User() {
       type: 'text',
     },
     {
-      id: 'gender',
-      label: 'Gender',
+      id: 'phone',
+      label: 'Phone',
+      type: 'text',
+    },
+    // {
+    //   id: 'isActive',
+    //   label: 'Active',
+    //   type: 'callback',
+    //   viewStatus: (obj) => {
+    //     return obj.active === true ? 'Yes' : 'No';
+    //   },
+    // },
+    {
+      id: 'bookingDetails',
+      label: 'Booking Details',
+      type: 'rowClick',
+      title: 'Details',
+      clickHandler: toggleDetailsTab,
+    },
+    {
+      id: 'deleteBtn',
+      label: 'Deactive',
+      title: 'Deactive',
+      type: 'button',
+      color: 'error',
+      clickHandler: handleUserClick,
+    },
+  ];
+
+  const deactiveUsersHeaderData = [
+    {
+      id: 'no',
+      label: 'No',
       type: 'text',
     },
     {
-      id: 'date_of_birth',
-      label: 'Date of birth',
+      id: 'firstName',
+      label: 'First Name',
+      type: 'text',
+    },
+    {
+      id: 'secondName',
+      label: 'Second Name',
+      type: 'text',
+    },
+    {
+      id: 'email',
+      label: 'Email',
       type: 'text',
     },
     {
       id: 'phone',
       label: 'Phone',
       type: 'text',
-    },
-    {
-      id: 'isActive',
-      label: 'Active',
-      type: 'callback',
-      viewStatus: (obj) => {
-        return obj.isActive === true ? 'Yes' : 'No';
-      },
     },
     {
       id: 'bookingDetails',
@@ -85,10 +163,11 @@ function User() {
     },
     {
       id: 'deleteBtn',
-      label: 'Delete',
-      title: 'Delete',
+      label: 'Activate',
+      title: 'Activate',
       type: 'button',
-      clickHandler: handleDeleteClick,
+      color: 'success',
+      clickHandler: handleUserClick,
     },
   ];
 
@@ -105,46 +184,60 @@ function User() {
     setFilteredUsers(searchUsers);
   };
 
+  const getUsers = useCallback(async () => {
+    setLoadingIndicator(true);
+    try {
+      let query;
+      if (userManagement === true) {
+        query = `?active=true`;
+      } else {
+        query = `?active=false`;
+      }
+      const res = await UserServices.getAllUser(query);
+      setUsers(res);
+      setFilteredUsers(res);
+    } catch (error) {
+      postErrorAlert(error.message);
+    }
+    setLoadingIndicator(false);
+  }, [userManagement]);
+
   useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-
-    const getUsers = async () => {
-      setLoadingIndicator(true);
-      const res = await UserServices.getUsers();
-      isMounted && setUsers(res);
-      isMounted && setFilteredUsers(res);
-      setLoadingIndicator(false);
-    };
-    getUsers();
-
-    return () => {
-      isMounted = false;
-      controller.abort();
-    };
-  }, []);
+    if (userDetails?._id) {
+      navigate(ROUTES.USERDETAILS.replace(':userId', userDetails._id));
+    }
+  }, [userDetails]);
 
   useEffect(() => {
-    handleSearch(searchText);
-  }, [users]);
+    getUsers().then();
+  }, [userManagement]);
 
   return (
     <div className={styles.contentWrapper}>
-      <ConfirmPopup
-        data={deleteData}
-        cancelBtnName={'cancel'}
-        successBtnName={'delete'}
-        alertTitle={'Confirm delete'}
-        alertMessage={
-          "Deactivated user can't use your website, do you want to deactivate this user?"
-        }
-        handleClose={handleDeleteClick}
-        handleOkey={handleDeleteUser}
-      />
+      {Object.keys(userActivityData).length > 0 && (
+        <ConfirmPopup
+          data={userActivityData}
+          cancelBtnName={'cancel'}
+          successBtnName={'delete'}
+          alertTitle={
+            userActivityData?.active === true
+              ? 'Confirm delete'
+              : 'Confirm Activate'
+          }
+          alertMessage={
+            userActivityData?.active === true
+              ? "Deactivated user can't use your website, do you want to deactivate this user ?"
+              : 'This is a deactivated user, do you want to activate this user ?'
+          }
+          handleClose={handleUserClick}
+          handleOkey={handleUserActivity}
+        />
+      )}
       <Loader isOpen={loadingIndicator} />
       <div className={styles.titleSec}>
         <h2 className={styles.title}>
-          User<span className={styles.menuName}>Management</span>
+          {userManagement ? `Active User` : `Deactive User`}
+          <span className={styles.menuName}>Management</span>
         </h2>
       </div>
       <div className={styles.searchPart}>
@@ -164,7 +257,9 @@ function User() {
       {users ? (
         filteredUsers && filteredUsers.length ? (
           <DataTable
-            columns={headerData}
+            columns={
+              userManagement ? activeUsersHeaderData : deactiveUsersHeaderData
+            }
             rows={filteredUsers ? filteredUsers : users}
           />
         ) : (
@@ -183,6 +278,12 @@ function User() {
           }
         />
       )}
+      {/* {Object.keys(userDetails).length > 0 && (
+        <UserDetails
+          data={userDetails}
+          handleClose={() => setUserDetails({})}
+        />
+      )} */}
     </div>
   );
 }

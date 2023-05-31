@@ -14,14 +14,14 @@ import CardMedia from '@mui/material/CardMedia';
 function DataTable(props) {
   const columns = props.columns || [];
   const rows = props.rows || [];
-  const rowKey = props.rowKey || 'id';
+  const rowKey = props.rowKey || '_id';
   const rowClicker = columns.find((col) => col.type === 'rowClick') || '';
   const filteredColumns = columns.filter((col) => col.type !== 'rowClick');
 
-  console.log(columns, rows, rowKey, rowClicker, filteredColumns);
   const getValueForCell = (data, key) => {
     return data[key];
   };
+  
   return (
     <TableContainer style={{ marginTop: '4px' }} component={Paper}>
       <Table aria-label="simple table" size="medium">
@@ -45,6 +45,7 @@ function DataTable(props) {
               onClick={() => (rowClicker ? rowClicker.clickHandler(row) : '')}
             >
               {filteredColumns.map((col) => {
+                
                 const rowValue = getValueForCell(row, col.id);
                 let value = '-';
                 try {
@@ -66,7 +67,7 @@ function DataTable(props) {
                           }}
                           variant="contained"
                           size="small"
-                          color="error"
+                          color= {col.color}
                         >
                           {col.title || 'Button'}
                         </Button>

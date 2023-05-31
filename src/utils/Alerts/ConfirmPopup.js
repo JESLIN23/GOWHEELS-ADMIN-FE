@@ -5,13 +5,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 
 function ConfirmPopup(props) {
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const {
     successBtnName,
@@ -26,8 +22,7 @@ function ConfirmPopup(props) {
   return (
     <div>
       <Dialog
-        fullScreen={fullScreen}
-        open={data}
+        open={Boolean(data)}
         aria-labelledby="responsive-dialog-title"
       >
         <DialogTitle id="responsive-dialog-title">{alertTitle}</DialogTitle>

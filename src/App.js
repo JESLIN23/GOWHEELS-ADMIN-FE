@@ -1,6 +1,7 @@
 import React from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
+import { ROUTES } from './const';
 import ErrorPage from './Pages/ErrorPage/ErrorPage';
 import DashboardPage from './Pages/DashboardPage/DashboardPage';
 import UserPage from './Pages/UserPage/UserPage';
@@ -11,6 +12,8 @@ import Offers from './Pages/OffersPage/OffersPage';
 import LoginPage from './Pages/LoginPage/LoginPage';
 import UserLayout from './components/Layout/UserLayout/UserLayout';
 import Unauthorized from './Pages/Unauthorized/Unauthorized';
+import UserDetailsPage from './Pages/UserDetails/UserDetails'
+import Offline from './Pages/Offline/Offline'
 
 const router = createBrowserRouter([
   {
@@ -19,11 +22,12 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <DashboardPage /> },
-      { path: 'dashboard', element: <DashboardPage /> },
-      { path: 'users', element: <UserPage /> },
-      { path: 'cars', element: <CarsPage /> },
-      { path: 'booking', element: <BookingPage /> },
-      { path: 'offers', element: <Offers /> },
+      { path: `${ROUTES.DASHBOARD}`, element: <DashboardPage /> },
+      { path: `${ROUTES.USERS}`, element: <UserPage /> },
+      { path: `${ROUTES.CARS}`, element: <CarsPage /> },
+      { path: `${ROUTES.BOOKING}`, element: <BookingPage /> },
+      { path: `${ROUTES.OFFERS}`, element: <Offers /> },
+      { path: `${ROUTES.USERDETAILS}`, element: <UserDetailsPage /> },
     ],
   },
   {
@@ -31,8 +35,9 @@ const router = createBrowserRouter([
     element: <UserLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { path: 'login', element: <LoginPage /> },
-      { path: 'unauthorized', element: <Unauthorized /> },
+      { path: `${ROUTES.LOGIN}`, element: <LoginPage /> },
+      { path: `${ROUTES.UNAUTHORIZED}`, element: <Unauthorized /> },
+      { path: `${ROUTES.OFFLINE}`, element: <Offline /> },
     ],
   },
 ]);

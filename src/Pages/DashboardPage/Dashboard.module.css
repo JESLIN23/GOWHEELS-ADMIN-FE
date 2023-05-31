@@ -6,7 +6,7 @@
   }
   .title {
     font-size: 24px;
-    font-weight: 500;
+    font-weight: 400;
     margin: 0;
   }
   .menuName {
@@ -24,6 +24,7 @@
   }
   .chartTitle {
     font-size: 18px;
+    font-weight: var(--h6FontWeight);
   }
   .chart {
     font-family: sans-serif;

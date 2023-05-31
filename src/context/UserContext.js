@@ -1,38 +1,76 @@
-import React, { createContext, useState } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from 'react';
 import AuthService from '../services/AuthService';
+import { STORAGE_KEYS } from '../const';
+import AlertMessageContext from './AlertMessageContext';
 
 const UserContext = createContext({});
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState({});
+  const [IsLoadingUserDetails, setIsLoadingUserDetails] = useState(false);
+  const { postErrorAlert } = useContext(AlertMessageContext);
 
   const initiateLogin = async (data) => {
     const response = await AuthService.login(data);
-    setUser(response)
-    console.log(user);
-    console.log(response);
-    _handleSuccessfullLogin(response)
+    setProfile(response.user);
   };
 
   const initiateLogout = async () => {
-    await AuthService.logout();
-    setUser(null);
+    setIsLoadingUserDetails(true);
+    try {
+      await AuthService.logout();
+    } catch (error) {
+      console.log(error);
+    }
+    localStorage.removeItem(STORAGE_KEYS.REFRESH_TOKEN);
+    localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
+    setProfile({});
+    setIsLoadingUserDetails(false);
   };
 
   const isLoggedIn = () => {
-    return Boolean(user?.accessToken);
-  };
-  const isAuthorized = () => {
-    return Boolean(user?.role === 'admin');
+    return Boolean(localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN));
   };
 
-  const _handleSuccessfullLogin = () => {
-    console.log('successfully logged in');
-  }
+  const getProfile = useCallback(async () => {
+    if (!isLoggedIn()) {
+      return;
+    }
+
+    try {
+      const response = await AuthService.getUserProfile();
+      setProfile(response);
+    } catch (error) {
+      console.log(error);
+      postErrorAlert(error.message);
+    }
+  }, [setProfile, postErrorAlert]);
+
+  useEffect(() => {
+    async function loadInitialDetails() {
+      setIsLoadingUserDetails(true);
+      await getProfile();
+      setIsLoadingUserDetails(false);
+    }
+
+    loadInitialDetails().then();
+  }, [getProfile]);
 
   return (
     <UserContext.Provider
-      value={{ user, setUser, isLoggedIn, isAuthorized, initiateLogin, initiateLogout }}
+      value={{
+        profile,
+        isLoggedIn,
+        initiateLogin,
+        initiateLogout,
+        IsLoadingUserDetails,
+      }}
     >
       {children}
     </UserContext.Provider>

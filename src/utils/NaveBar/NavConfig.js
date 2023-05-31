@@ -17,39 +17,39 @@ const NavConfig = [
   },
   {
     id: "users",
-    name: "Users",
+    name: "User",
     path: ROUTES.USERS,
     icon: PeopleIcon,
     submenu: [
       {
         id: 'activeUsers',
         name: 'Active Users',
-        path: ROUTES.USERS,
+        path: ROUTES.ACTIVEUSERS,
         icon: PersonIcon
       },
       {
-        id: 'deactivatedUsers',
-        name: 'Deactivated Users',
-        path: ROUTES.DEACTIVATEDUSER,
+        id: 'deactiveUsers',
+        name: 'Deactive Users',
+        path: ROUTES.DEACTIVEUSERS,
         icon: PersonOffIcon
       }
     ]
   },
   {
     id: "cars",
-    name: "cars",
+    name: "Car",
     path: ROUTES.CARS,
     icon: DriveEtaIcon,
   },
   {
     id: "bookings",
-    name: "Bookings",
+    name: "Booking",
     path: ROUTES.BOOKING,
     icon: FeaturedPlayListIcon,
   },
   {
     id: "offers",
-    name: "Offers",
+    name: "Offer",
     path: ROUTES.OFFERS,
     icon: LocalOfferIcon
   },
