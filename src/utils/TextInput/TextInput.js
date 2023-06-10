@@ -11,22 +11,24 @@ function TextInput({
   onChange,
   onBlur,
   type,
+  variant,
   ...props
 }) {
 
-  // const _onChange = event => {
-  //   onChange(event.target.value)
-  // }
+  const _onChange = event => {
+    onChange(event.target.value)
+  }
+  
   return (
 
     <TextField
       id='standard-basic'
       label= {label ? label : name}
       name= {name || ''}
-      variant='outlined'
+      variant={variant ?? 'outlined'}
       type={type ? type : 'text'}
       fullWidth
-      onChange={onChange}
+      onChange={_onChange}
       onBlur={onBlur}
       error={Boolean(error)}
       helperText={error || null}
@@ -43,7 +45,7 @@ export default TextInput;
 
 TextInput.propTypes = {
   value: PropTypes.string,
-  name: PropTypes.number,
+  name: PropTypes.string,
   label: PropTypes.string,
   error: PropTypes.string,
   onChange: PropTypes.func,
