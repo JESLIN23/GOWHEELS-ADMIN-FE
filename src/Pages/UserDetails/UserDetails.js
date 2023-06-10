@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
-import styles from './UserDetails.module.css';
+import { ROUTES } from '../../const';
+import PageStyles from '../PageStyles.module.css'
 import Info from '../../utils/Alerts/Info';
 import ConfirmPopup from '../../utils/Alerts/ConfirmPopup';
 import Loader from '../../utils/Loading/loading';
@@ -9,6 +10,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import UserServices from '../../services/UserServices';
 import AlertContextHook from '../../hooks/AlertContextHook';
 import UserPart from './UserPart';
+import { Breadcrumbs } from '@mui/material';
+import EastSharpIcon from '@mui/icons-material/EastSharp';
 
 function UserDetails() {
   const [loadingIndicator, setLoadingIndicator] = useState(false);
@@ -36,7 +39,10 @@ function UserDetails() {
       } else {
         data = { active: true };
       }
-      const response = await UserServices.updateUser(userActivityData._id, data);
+      const response = await UserServices.updateUser(
+        userActivityData._id,
+        data
+      );
       let successMsg;
       if (response?.active === false) {
         successMsg = 'User deactivated successfully';
@@ -44,9 +50,8 @@ function UserDetails() {
         successMsg = 'User activated successfully';
       }
       postSuccessAlert(successMsg);
-      setCustomer(response)
+      setCustomer(response);
     } catch (error) {
-      console.log(error);
       postErrorAlert(error.message);
     }
     setLoadingIndicator(false);
@@ -74,18 +79,26 @@ function UserDetails() {
       isMounted = false;
       abortController.abort();
     };
-  }, []);
+  }, [userId]);
 
   return (
-    <div className={styles.contentWrapper}>
+    <div className={PageStyles.contentWrapper}>
       {Object.keys(userActivityData).length > 0 && (
         <ConfirmPopup
           data={userActivityData}
           cancelBtnName={'cancel'}
-          successBtnName={'delete'}
-          alertTitle={'Confirm delete'}
+          successBtnName={
+            userActivityData?.active === true ? 'deactivate' : 'activate'
+          }
+          alertTitle={
+            userActivityData?.active === true
+              ? 'Confirm deactivation'
+              : 'Confirm activate'
+          }
           alertMessage={
-            "Deactivated user can't use your website, do you want to deactivate this user?"
+            userActivityData?.active === true
+              ? "Deactivated user can't use your website, do you want to deactivate this user?"
+              : 'This is a deactivated user, do you want to activate this user ?' 
           }
           handleClose={() => {
             setUserActivityData({});
@@ -94,23 +107,43 @@ function UserDetails() {
         />
       )}
       <Loader isOpen={loadingIndicator} />
-      <div className={styles.titleSec}>
-        <h2 className={styles.title}>
-          User<span className={styles.menuName}>Details</span>
+      <div className={PageStyles.titleSec}>
+        <h2 className={PageStyles.title}>
+          User<span className={PageStyles.menuName}>Details</span>
         </h2>
       </div>
-      <div className={styles.searchPart}>
-        <div className={styles.searchSec}>
+      <div className={PageStyles.searchPart}>
+        <Breadcrumbs
+          separator={<EastSharpIcon fontSize="small" />}
+          aria-label="breadcrumb"
+        >
+          <Link
+            to={
+              customer?.active === true
+                ? ROUTES.ACTIVE_USERS
+                : ROUTES.DEACTIVE_USERS
+            }
+            underline="hover"
+            key="1"
+            className={PageStyles.link}
+          >
+            {customer?.active === true ? 'Active Users' : 'Deactive Users'}
+          </Link>
+          <span key="2" className={PageStyles.activeLink}>
+            User Details
+          </span>
+        </Breadcrumbs>
+        <div className={PageStyles.searchSec}>
           <input
             type="text"
             // value={searchText}
             // onChange={(e) => {
             //    handleSearch(e.target.value);
             // }}
-            className={styles.searchInput}
+            className={PageStyles.searchInput}
             placeholder="search items"
           />
-          <SearchIcon className={styles.searchIcon} />
+          <SearchIcon className={PageStyles.searchIcon} />
         </div>
       </div>
       {customer ? (

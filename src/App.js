@@ -8,12 +8,14 @@ import UserPage from './Pages/UserPage/UserPage';
 import CarsPage from './Pages/CarsPage/CarsPage';
 import BookingPage from './Pages/BookingPage/BookingPage';
 import RootLayout from './components/Layout/RootLayout/RootLayout';
-import Offers from './Pages/OffersPage/OffersPage';
+import OffersPage from './Pages/OffersPage/OffersPage';
 import LoginPage from './Pages/LoginPage/LoginPage';
 import UserLayout from './components/Layout/UserLayout/UserLayout';
 import Unauthorized from './Pages/Unauthorized/Unauthorized';
 import UserDetailsPage from './Pages/UserDetails/UserDetails'
 import Offline from './Pages/Offline/Offline'
+import CarDetailsPage from './Pages/CarDetails/CarDetails'
+import CarFormPage from './Pages/CarForm/CarForm';
 
 const router = createBrowserRouter([
   {
@@ -24,10 +26,13 @@ const router = createBrowserRouter([
       { index: true, element: <DashboardPage /> },
       { path: `${ROUTES.DASHBOARD}`, element: <DashboardPage /> },
       { path: `${ROUTES.USERS}`, element: <UserPage /> },
+      { path: `${ROUTES.USER_DETAILS}`, element: <UserDetailsPage /> },
       { path: `${ROUTES.CARS}`, element: <CarsPage /> },
+      { path: `${ROUTES.CAR_DETAILS}`, element: <CarDetailsPage /> },
+      { path: `${ROUTES.CAR_EDIT}`, element: <CarFormPage /> },
+      { path: `${ROUTES.CAR_CREATE}`, element: <CarFormPage /> },
       { path: `${ROUTES.BOOKING}`, element: <BookingPage /> },
-      { path: `${ROUTES.OFFERS}`, element: <Offers /> },
-      { path: `${ROUTES.USERDETAILS}`, element: <UserDetailsPage /> },
+      { path: `${ROUTES.OFFERS}`, element: <OffersPage /> },
     ],
   },
   {

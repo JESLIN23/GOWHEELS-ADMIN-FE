@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import ProtectRoute from '../../components/ProtectRoute';
 import { useNavigate } from 'react-router-dom';
 
-import styles from './UserPage.module.css';
+import PageStyles from '../PageStyles.module.css'
 import Loader from './../../utils/Loading/loading';
 import Info from './../../utils/Alerts/Info';
 import DataTable from '../../utils/DataTable/DataTable';
@@ -58,7 +58,10 @@ function User() {
       } else {
         data = { active: true };
       }
-      const response = await UserServices.updateUser(userActivityData._id, data);
+      const response = await UserServices.updateUser(
+        userActivityData._id,
+        data
+      );
       let successMsg;
       if (response?.active === false) {
         successMsg = 'User deactivated successfully';
@@ -66,7 +69,7 @@ function User() {
         successMsg = 'User activated successfully';
       }
       postSuccessAlert(successMsg);
-      await getUsers()
+      await getUsers();
     } catch (error) {
       postErrorAlert(error.message);
     }
@@ -204,7 +207,7 @@ function User() {
 
   useEffect(() => {
     if (userDetails?._id) {
-      navigate(ROUTES.USERDETAILS.replace(':userId', userDetails._id));
+      navigate(ROUTES.USER_DETAILS.replace(':userId', userDetails._id));
     }
   }, [userDetails]);
 
@@ -213,12 +216,14 @@ function User() {
   }, [userManagement]);
 
   return (
-    <div className={styles.contentWrapper}>
+    <div className={PageStyles.contentWrapper}>
       {Object.keys(userActivityData).length > 0 && (
         <ConfirmPopup
           data={userActivityData}
           cancelBtnName={'cancel'}
-          successBtnName={'delete'}
+          successBtnName={userActivityData?.active === true
+            ? 'Deactivate'
+            : 'Activate'}
           alertTitle={
             userActivityData?.active === true
               ? 'Confirm delete'
@@ -234,27 +239,28 @@ function User() {
         />
       )}
       <Loader isOpen={loadingIndicator} />
-      <div className={styles.titleSec}>
-        <h2 className={styles.title}>
+      <div className={PageStyles.titleSec}>
+        <h2 className={PageStyles.title}>
           {userManagement ? `Active User` : `Deactive User`}
-          <span className={styles.menuName}>Management</span>
+          <span className={PageStyles.menuName}>Management</span>
         </h2>
       </div>
-      <div className={styles.searchPart}>
-        <div className={styles.searchSec}>
+      <div className={PageStyles.searchPart}>
+        <div></div>
+        <div className={PageStyles.searchSec}>
           <input
             type="text"
             value={searchText}
             onChange={(e) => {
               handleSearch(e.target.value);
             }}
-            className={styles.searchInput}
+            className={PageStyles.searchInput}
             placeholder="search items"
           />
-          <SearchIcon className={styles.searchIcon} />
+          <SearchIcon className={PageStyles.searchIcon} />
         </div>
       </div>
-      {users ? (
+      {users && users.length ? (
         filteredUsers && filteredUsers.length ? (
           <DataTable
             columns={
@@ -274,7 +280,7 @@ function User() {
         <Info
           title={'No customers to list'}
           content={
-            'You have no customers to list with current filter configuration. Please clear the filters or add users'
+            'You have no customers to list. Please add users'
           }
         />
       )}

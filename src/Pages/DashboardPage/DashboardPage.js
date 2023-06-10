@@ -1,6 +1,7 @@
 import React from 'react';
 // import Loader from '../../utils/Loading/loading';
 import styles from './Dashboard.module.css';
+import PageStyles from '../PageStyles.module.css'
 import ProtectRoute from '../../components/ProtectRoute';
 import Grid from '@mui/material/Grid';
 
@@ -72,15 +73,15 @@ function Dashboard() {
   // }, []);
 
   return (
-    <div className={styles.contentWrapper}>
+    <div className={PageStyles.contentWrapper}>
       {/* <Loader isOpen={loadingIndicator} /> */}
-      <div className={styles.titleSec}>
-        <span className={styles.title}>
-          Sales <span className={styles.menuName}>Dashboard</span>
+      <div className={PageStyles.titleSec}>
+        <span className={PageStyles.title}>
+          Sales <span className={PageStyles.menuName}>Dashboard</span>
         </span>
       </div>
-      <div className={styles.changeable}>
-        <div className={styles.secTitle}>
+      <div className={PageStyles.changeable}>
+        <div className={PageStyles.secTitle}>
           <h2 className={styles.chartTitle}>Sales overview chart</h2>
         </div>
         <Grid container spacing={3}>
