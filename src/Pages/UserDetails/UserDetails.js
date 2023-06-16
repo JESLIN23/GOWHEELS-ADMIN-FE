@@ -40,7 +40,7 @@ function UserDetails() {
         data = { active: true };
       }
       const response = await UserServices.updateUser(
-        userActivityData._id,
+        userActivityData.id,
         data
       );
       let successMsg;

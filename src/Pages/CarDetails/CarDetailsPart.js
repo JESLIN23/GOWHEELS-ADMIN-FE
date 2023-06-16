@@ -1,51 +1,52 @@
 import React from 'react';
-
-import styles from './UserDetails.module.css';
-import { Grid, Paper, Box, Avatar, Typography, Button } from '@mui/material';
+import styles from './CarDetails.module.css';
+import { Grid, Paper, Box, Typography, Button } from '@mui/material';
+import PlaceHolderImage from '../../utils/PlaceHolderImage';
 import { styled } from '@mui/material/styles';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
-  color: theme.palette.text.secondary,
 }));
 
-function stringAvatar(name) {
-  return {
-    sx: {
-      width: 140,
-      height: 140,
-      fontSize: 50,
-    },
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`.toUpperCase(),
+function CarDetailsPart(props) {
+  const { data, manageCarHandler, deleteCarHandler } = props;
+
+  const handleCar = () => {
+    manageCarHandler(data);
   };
-}
-
-function UserPart(props) {
-  const { data, handleManageUser } = props;
-
-  const handleUser = () => {
-    handleManageUser(data);
+  const handleDelete = () => {
+    deleteCarHandler(data);
   };
 
-  const headers = ['Email', 'Phone No', 'Date of birth', 'Gender', 'Phone verified', 'Email verified']
+  const headers = [
+    'Brand',
+    'Segment',
+    'Fuel',
+    'Seating Capacity',
+    'Transmission',
+    'City',
+    'Registor No',
+    'Price',
+    'Status',
+  ];
 
   return (
-    <Box className={styles.userWrapper}>
+    <Box className={styles.carWrapper}>
       <Grid container rowSpacing={1} columnSpacing={2}>
         <Grid item xs={12} md={3}>
-          <Item sx={{ textAlign: 'center' }}>
-            <Grid container rowSpacing={2} className={styles.userImg}>
+          <Item className={styles.carImg}>
+            <Grid container rowSpacing={2}>
               <Grid
                 item
                 xs={4}
                 md={12}
                 sx={{ display: 'grid', justifyItems: 'center' }}
               >
-                <Avatar
-                  src={data?.avatar}
-                  {...stringAvatar(`${data?.firstName} ${data?.secondName}`)}
+                <img
+                  src={data?.images[0]?.url || PlaceHolderImage}
+                  style={{ height: 140, width: '90%' }}
                 />
               </Grid>
               <Grid
@@ -58,24 +59,24 @@ function UserPart(props) {
                   variant="overline"
                   display="block"
                   gutterBottom
-                  className={styles.userName}
+                  className={styles.carName}
                 >
-                  {data?.firstName}
+                  {data?.brand}
                 </Typography>
                 <Typography
                   variant="overline"
                   display="block"
                   gutterBottom
-                  className={styles.userName}
+                  className={styles.carName}
                 >
-                  {data?.secondName}
+                  {data?.name}
                 </Typography>
               </Grid>
             </Grid>
           </Item>
         </Grid>
         <Grid item xs={12} md={9}>
-          <Item className={styles.userInfoContainer}>
+          <Item className={styles.carInfoContainer}>
             <Grid container rowSpacing={1} columnSpacing={3}>
               <Grid item xs={4}>
                 <Grid container rowSpacing={2}>
@@ -90,30 +91,46 @@ function UserPart(props) {
               <Grid item xs={8}>
                 <Grid container rowSpacing={2}>
                   <Grid item xs={12} className={styles.info1}>
-                    {data?.email}
+                    {data?.brand}
                   </Grid>
                   <Grid item xs={12} className={styles.info2}>
-                    {data?.phone}
+                    {data?.segment}
                   </Grid>
                   <Grid item xs={12} className={styles.info1}>
-                    {data?.date_of_birth}
+                    {data?.fuel}
                   </Grid>
                   <Grid item xs={12} className={styles.info2}>
-                    {data?.gender}
+                    {data?.seating_capacity}
                   </Grid>
                   <Grid item xs={12} className={styles.info1}>
-                    {data?.isPhoneVerified === true ? 'Yes' : 'No'}
+                    {data?.transmission}
                   </Grid>
                   <Grid item xs={12} className={styles.info2}>
-                    {data?.isEmailVerified === true ? 'Yes' : 'No'}
+                    {data?.city}
+                  </Grid>
+                  <Grid item xs={12} className={styles.info1}>
+                    {data?.registerNo}
+                  </Grid>
+                  <Grid item xs={12} className={styles.info2}>
+                    {data?.price}
+                  </Grid>
+                  <Grid item xs={12} className={styles.info1}>
+                    {data?.booked === true ? 'Booked' : 'Not Booked'}
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12} className={styles.userUpdate}>
+              <Grid item xs={12} className={styles.carUpdate}>
                 <Button
                   variant="contained"
-                  color={data?.active ? 'error' : 'success'}
-                  onClick={handleUser}
+                  color="error"
+                  onClick={handleDelete}
+                >
+                  delete
+                </Button>
+                <Button
+                  variant="contained"
+                  color={data?.active ? 'secondary' : 'success'}
+                  onClick={handleCar}
                 >
                   {data?.active === true ? 'Deactive' : 'Activate'}
                 </Button>
@@ -126,4 +143,4 @@ function UserPart(props) {
   );
 }
 
-export default UserPart;
+export default CarDetailsPart;

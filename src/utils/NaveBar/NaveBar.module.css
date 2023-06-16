@@ -12,7 +12,7 @@
   padding-bottom: 20px;
   padding-left: 50px;
   border-radius: 7px;
-  color: #fff;
+  color: #404040;
   transition: 1s background-image ease-in-out, 0.2s color;
 }
 
@@ -32,8 +32,8 @@
 .navSubMenuItem{
   display: flex;
   padding: 10px;
-  color: white;
-  padding-left: 20px;
+  color: #ffffff;
+  padding-left: 25px;
   background-color: #32b4a7;
 }
 .navSubMenuItem h5{
@@ -43,11 +43,16 @@
 
 .navLinkWrapper {
   display: flex;
-  padding: 14px 20px;
-  border-radius: 4px;
-  color: white;
+  padding: 14px 15px;
+  border-radius: 6px;
+  color: #404040;
   font-weight: 400;
+  align-items: center;
   transition: 1s background-image ease-in-out, 0.2s color;
+}
+
+.icon {
+  font-size: 22px !important;
 }
 
 .navLinkWrapper:hover {
@@ -57,14 +62,25 @@
 .navLinkWrapper:hover .navLink {
   color: white;
 }
+.navLinkWrapper:hover .navLinkIcon {
+  color: white;
+}
+.navLink {
+  border-radius: 6px;
+  margin: 5px;
+  color: #404040;
+}
 .activeNavLink {
   background-color: var(--secondaryColor);
+  color: white;
+}
+.activeNavLinkIcon {
   color: white;
 }
 .navLinkIcon {
   font-size: 20px !important;
 } 
-.navLink {
+.navLinkText {
   padding-left: 15px;
   font-size: 16px;
   font-weight: 300;

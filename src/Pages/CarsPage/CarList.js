@@ -17,9 +17,7 @@ function CarListItem({ data, link, editHandler, deleteHandler }) {
   const onDeleteButtonClicked = () => deleteHandler(data);
   const navigateToDetailsPage = () => navigate(link);
 
-  const { name, price, fuel, seating_capacity, transmission, segment } = data;
-
-  console.log(data.images[0].url);
+  const { name, brand, price, fuel, seating_capacity, transmission, segment } = data;
 
   return (
     <div className={styles.cardWrapper}>
@@ -38,14 +36,14 @@ function CarListItem({ data, link, editHandler, deleteHandler }) {
         />
       </div>
       <img
-        src={`${data?.images[0]?.url}` || PlaceHolderImage}
+        src={data?.images[0]?.url || PlaceHolderImage}
         alt={data.name}
         className={styles.image}
         onClick={navigateToDetailsPage}
       />
       {name && (
         <span onClick={navigateToDetailsPage} className={styles.title}>
-          {name}
+          {brand}  {name} 
         </span>
       )}
       <Grid container rowSpacing={1} columnSpacing={2}>

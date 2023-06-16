@@ -1,0 +1,63 @@
+/* cat part */
+
+.carWrapper {
+  margin: 1rem 0 1rem 0;
+}
+
+.carData {
+  padding: 5px;
+}
+.carInfoContainer {
+  padding: 10px 20px !important;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+}
+.info1 {
+  display: flex;
+  padding-bottom: 16px;
+  padding-left: 15px;
+  background-color: transparent;
+  border-radius: 8px;
+}
+.info2 {
+  display: flex;
+  padding-bottom: 16px;
+  padding-left: 15px;
+  background-color: #e8f3f1;
+  border-radius: 8px;
+}
+.carUpdate {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 15px !important;
+}
+.carUpdate button {
+  margin-left: 15px;
+}
+
+.carName {
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  padding-top: 1rem;
+}
+.carImg {
+  text-align: center;
+}
+
+@media (min-width: 900px) {
+  .carImg {
+    min-height: 33.2rem;
+    padding-top: 2rem !important;
+  }
+  .carInfo {
+    min-height: 33.2rem;
+  }
+  .carName {
+    padding-top: 1rem;
+  }
+}
