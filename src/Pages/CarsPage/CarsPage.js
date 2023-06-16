@@ -2,7 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import ProtectRoute from '../../components/ProtectRoute';
 // import styles from './CarsPage.module.css';
 import ConfirmPopup from '../../utils/Alerts/ConfirmPopup';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import {
+  useSearchParams,
+  useNavigate,
+  createSearchParams,
+} from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import Loader from '../../utils/Loading/loading';
 import AlertContextHook from '../../hooks/AlertContextHook';
@@ -11,6 +15,9 @@ import CarServices from '../../services/CarServices';
 import PageStyles from '../PageStyles.module.css';
 import Info from '../../utils/Alerts/Info';
 import CarListItem from './CarList';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import { Button, MenuItem, Menu, Fade } from '@mui/material';
+import { city } from '../CarForm/CarDataConfig';
 
 export default function CarsPage() {
   return (
@@ -26,23 +33,26 @@ function Cars() {
   const [loadingIndicator, setLoadingIndicator] = useState(false);
   const [deleteCar, setDeleteCar] = useState({});
   const [searchText, setSearchText] = useState('');
-  const [carManagement, setCarManagement] = useState(true);
   const [carEdit, setCarEdit] = useState({});
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [queryString, setQueryString] = useState({ active: true });
 
   const { postSuccessAlert, postErrorAlert } = AlertContextHook();
-
   const [searchParams] = useSearchParams();
-
   const navigate = useNavigate();
 
   useEffect(() => {
     const newParams = Object.fromEntries([...searchParams]);
     if (newParams?.active === 'false') {
-      setCarManagement(false);
+      setQueryString({ ...queryString, active: 'false' });
+    } else if (newParams?.active === 'true') {
+      setQueryString({ ...queryString, active: 'true' });
     } else {
-      setCarManagement(true);
+      navigate({
+        pathname: '/cars',
+        search: `?${createSearchParams(queryString)}`,
+      });
     }
-    //  setUserManagement(searchParams.get('active'));
   }, [searchParams]);
 
   const handleSearch = (value) => {
@@ -59,6 +69,13 @@ function Cars() {
       : [];
     setFilteredCars(searchCars);
   };
+
+  useEffect(() => {
+    navigate({
+      pathname: '/cars',
+      search: `?${createSearchParams(queryString)}`,
+    });
+  }, [queryString]);
 
   const clinkDeleteCarHandler = (data) => {
     setDeleteCar(data);
@@ -78,37 +95,38 @@ function Cars() {
   };
 
   const navigateToCreateCar = () => {
-    navigate(ROUTES.CAR_CREATE)
-  }
+    navigate(ROUTES.CAR_CREATE);
+  };
+
+  const handleFilterMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleFilterMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   const getCars = useCallback(async () => {
     setLoadingIndicator(true);
     try {
-      let query;
-      if (carManagement === true) {
-        query = `?active=true`;
-      } else {
-        query = `?active=false`;
-      }
+      let query = `?${createSearchParams(queryString)}`;
       const res = await CarServices.getAllCars(query);
       setCars(res);
-      console.log(res);
       setFilteredCars(res);
     } catch (error) {
       postErrorAlert(error.message);
     }
     setLoadingIndicator(false);
-  }, [carManagement]);
+  }, [queryString]);
 
   useEffect(() => {
     if (carEdit?.id) {
-      navigate(ROUTES.CAR_DETAILS.replace(':carId', carEdit.id));
+      navigate(ROUTES.CAR_EDIT.replace(':carId', carEdit.id));
     }
   }, [carEdit]);
 
   useEffect(() => {
     getCars().then();
-  }, [carManagement]);
+  }, [queryString]);
 
   return (
     <div className={PageStyles.contentWrapper}>
@@ -128,10 +146,56 @@ function Cars() {
       <Loader isOpen={loadingIndicator} />
       <div className={PageStyles.titleSec}>
         <h2 className={PageStyles.title}>
-          {carManagement ? `Active Cars` : `Deactive Cars`}
+          {queryString?.active === true ? `Active Cars` : `Deactive Cars`}
           <span className={PageStyles.menuName}>Management</span>
         </h2>
-        <span className={PageStyles.coloredBtn} onClick={navigateToCreateCar}>ADD NEW CAR</span>
+        <div className={PageStyles.titleSecRight}>
+          <div className={PageStyles.filterPart}>
+            <Button
+              id="fade-button"
+              aria-controls={open ? 'fade-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleFilterMenuClick}
+              endIcon={<FilterAltOutlinedIcon />}
+            >
+              Filter by city
+            </Button>
+            <Menu
+              id="fade-menu"
+              MenuListProps={{
+                'aria-labelledby': 'fade-button',
+              }}
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleFilterMenuClose}
+              TransitionComponent={Fade}
+            >
+              <MenuItem
+                onClick={() => {
+                  setQueryString(delete queryString?.city);
+                  handleFilterMenuClose();
+                }}
+              >
+                All
+              </MenuItem>
+              {city.map((el, index) => (
+                <MenuItem
+                  key={index}
+                  onClick={() => {
+                    setQueryString({ ...queryString, city: el });
+                    handleFilterMenuClose();
+                  }}
+                >
+                  {el}
+                </MenuItem>
+              ))}
+            </Menu>
+          </div>
+          <span className={PageStyles.coloredBtn} onClick={navigateToCreateCar}>
+            ADD NEW CAR
+          </span>
+        </div>
       </div>
       <div className={PageStyles.searchPart}>
         <div></div>

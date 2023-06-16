@@ -26,7 +26,6 @@ export const city = [
     'Calicut',
     'Malappuram',
     'Kochi',
-    'Kondotty'
 ]
 
 export const fuel = [
@@ -41,17 +40,18 @@ export const seatingCapacity = [
     '5',
     '7',
     '8',
+    '9',
     '10',
+    '11',
 ]
 
 export const segment = [
     'SUV',
     'Sedan',
-    'Sports',
-    'Luxury',
-    'Combact SUV',
+    'Wagon',
     'Hatchback',
-    'MPV'
+    'Convertable',
+    'MUV'
 ]
 
 export const transmission = [

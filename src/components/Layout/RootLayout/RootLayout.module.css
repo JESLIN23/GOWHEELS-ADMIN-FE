@@ -14,7 +14,9 @@
   height: 100%;
   width: 200px;
   overflow-x: hidden;
-  background-color: #1c8c81;
+  background-color: #f8f8f8;
+  border-right: 5px solid gainsboro;
+  /* background-color: #1c8c81; */
 }
 
 .ContentsArea {

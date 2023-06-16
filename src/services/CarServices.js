@@ -35,6 +35,7 @@ const createCar = async (data) => {
 
 const updateCar = async (id, data) => {
   const url = `/car/${id}`;
+  console.log(data);
   const response = await ApiHelper.request({
     url,
     method: 'PATCH',

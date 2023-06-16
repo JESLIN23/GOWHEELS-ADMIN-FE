@@ -9,17 +9,53 @@
   padding: 5px;
 }
 
-.userUpdate {
-  display: grid;
-  place-items: end;
+.userName {
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  padding-top: 1rem;
 }
-
+.userInfoContainer {
+  padding: 10px 20px !important;
+}
+.userUpdate {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 15px !important;
+}
+.info1 {
+  display: flex;
+  padding-bottom: 16px;
+  padding-left: 15px;
+  background-color: transparent;
+  border-radius: 8px;
+}
+.info2 {
+  display: flex;
+  padding-bottom: 16px;
+  padding-left: 15px;
+  background-color: #e8f3f1;
+  border-radius: 8px;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+}
+.carImg {
+  text-align: center;
+}
 
 @media (min-width: 900px)  {
   .userImg {
-    min-height: 16rem;
+    min-height: 23.5rem;
+    padding-top: 2rem !important;
   }
   .userInfo {
-    min-height: 16rem;
+    min-height: 23.5rem;
+  }
+  .userName {
+    padding-top: 1rem;
   }
 }

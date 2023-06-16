@@ -22,7 +22,7 @@ function ImageUpload({
   };
 
   const onSubmitHandler = (image) => {
-    onImageSelected({ file: image, id: nanoid() });
+    onImageSelected({ file: image, _id: nanoid() });
     if (shouldClearOnSubmit) {
       setSelectedImage(null);
     }

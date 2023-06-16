@@ -19,7 +19,7 @@ function NaveBar() {
         {NavConfig.map((nav) => {
           return (
             <div
-              className={` ${match(nav.path) ? styles.activeNavLink : null}`}
+              className={`${styles.navLink} ${match(nav.path) ? styles.activeNavLink : null}`}
               key={nav.name}
             >
               <Link
@@ -28,8 +28,8 @@ function NaveBar() {
                 }`}
                 to={nav.path}
               >
-                <nav.icon className={styles.navLinkIcon} />
-                <h4 className={styles.navLink}>{nav.name}</h4>
+                <nav.icon className={styles.icon}/>
+                <h4 className={styles.navLinkText}>{nav.name}</h4>
               </Link>
               {nav.submenu &&
                 match(nav.path) &&
@@ -54,8 +54,8 @@ function NaveBar() {
           className={styles.logoutWrapper}
           onClick={initiateLogout}
         >
-          <LogoutOutlinedIcon className={styles.navLinkIcon} />
-          <span className={styles.navLink}>Logout</span>
+          <LogoutOutlinedIcon  />
+          <span className={styles.navLinkText}>Logout</span>
         </Link>
       </Grid>
     </Grid>

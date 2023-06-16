@@ -13,7 +13,7 @@ function ImagePanel({ images, addImage, removeImage }) {
       <div>Images</div>
       <ImageList className={styles.imageWrapper} sx={{ minWidth: '100%'}} cols={7} rowHeight={140}>
         {images.map((image) => (
-          <ImageListItem key={image.id} className={styles.imageItem}>
+          <ImageListItem key={image._id} className={styles.imageItem}>
             <img
               height="100"
               width="100"
@@ -23,7 +23,7 @@ function ImagePanel({ images, addImage, removeImage }) {
             <CancelIcon
               className={styles.cancelIcon}
               onClick={() => {
-                removeImage(image.id);
+                removeImage(image?._id);
               }}
             />
           </ImageListItem>

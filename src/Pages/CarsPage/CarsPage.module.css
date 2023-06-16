@@ -38,14 +38,19 @@
 
   .image {
     z-index: 1;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
+    width: 100%;
+    height: 130px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .image:hover {
+    transform: scale(1.02);
   }
   .title {
     font-size: 15px;
     font-weight: 500;
     text-transform: capitalize;
+    cursor: pointer;
   }
   .itemDescription {
     text-align: center;
@@ -61,5 +66,5 @@
   }
 
   .specs {
-    font-size: small;
+    font-size: 11px;
   }

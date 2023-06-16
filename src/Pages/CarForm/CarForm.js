@@ -41,7 +41,8 @@ function CarForm() {
   const editCarHandler = async () => {
     setIsActionLoading(true);
     try {
-      await CarServices.updateCar(_getData());
+      await CarServices.updateCar(carData.id, _getData());
+      await uploadImages(carData.id, carData.images);
       resetForm();
       postSuccessAlert('Car Updated Successfully');
       moveToPreviousPage();
@@ -61,7 +62,6 @@ function CarForm() {
       moveToPreviousPage();
     } catch (error) {
       postErrorAlert(error.message);
-      console.log(error);
     }
     setIsActionLoading(false);
   };
@@ -92,7 +92,7 @@ function CarForm() {
 
   const removeImage = (imageId) => {
     const images = (carData.images || []).filter(
-      (image) => image.id !== imageId
+      (image) => image._id !== imageId
     );
     setCarData({ ...carData, images });
   };
@@ -102,7 +102,11 @@ function CarForm() {
   };
 
   const resetForm = () => {
-    setCarData(null);
+    if (carId) {
+      setCarData(updateCar)
+    } else {
+      setCarData(null);
+    }
   };
 
   useEffect(() => {
@@ -147,7 +151,7 @@ function CarForm() {
           <Link
             to={
               carId
-                ? carData?.active === true
+                ? (carData?.active === true)
                   ? ROUTES.ACTIVE_CARS
                   : ROUTES.DEACTIVE_CARS
                 : ROUTES.ACTIVE_CARS
@@ -211,6 +215,7 @@ function CarForm() {
             label="Brand"
             value={carData?.brand || ''}
             name="brand"
+            placeholder='Select car brand'
             onChange={(value) => setCarData({ ...carData, brand: value })}
             valueoptions={brandNames}
           />
@@ -232,6 +237,7 @@ function CarForm() {
             label="City"
             value={carData?.city || ''}
             name="City"
+            placeholder='Select city'
             onChange={(value) => setCarData({ ...carData, city: value })}
             valueoptions={city}
           />
@@ -253,6 +259,7 @@ function CarForm() {
             label="Fuel"
             value={carData?.fuel || ''}
             name="Fuel"
+            placeholder='Select fuel type'
             onChange={(value) => setCarData({ ...carData, fuel: value })}
             valueoptions={fuel}
           />
@@ -272,8 +279,9 @@ function CarForm() {
         <Grid item xs={12} md={9} lg={10}>
           <SelectInput
             label="Seating Capacity"
-            value={carData?.seating_capacity || ''}
+            value={carData?.seating_capacity?.toString() || ''}
             name="Seating Capacity"
+            placeholder='Select seating capacity'
             onChange={(value) =>
               setCarData({ ...carData, seating_capacity: value })
             }
@@ -297,6 +305,7 @@ function CarForm() {
             label="Segment"
             value={carData?.segment || ''}
             name="Segment"
+            placeholder='Select car segment'
             onChange={(value) => setCarData({ ...carData, segment: value })}
             valueoptions={segment}
           />
@@ -318,6 +327,7 @@ function CarForm() {
             label="Transmission"
             value={carData?.transmission || ''}
             name="Transmission"
+            placeholder='Select transmission type'
             onChange={(value) =>
               setCarData({ ...carData, transmission: value })
             }
@@ -341,7 +351,7 @@ function CarForm() {
             variant="standard"
             value={carData?.registerNo || ''}
             placeholder='Enter car registor number'
-            onChange={(value) => setCarData({ ...carData, registerNo: value })}
+            onChange={(value) => setCarData({ ...carData, registerNo: value.toUpperCase() })}
           />
         </Grid>
         <Grid
@@ -359,7 +369,7 @@ function CarForm() {
         <Grid item xs={12} md={9} lg={10}>
           <TextInput
             variant="standard"
-            value={carData?.price || ''}
+            value={carData?.price?.toString() || ''}
             placeholder='Enter car price'
             onChange={(value) => setCarData({ ...carData, price: value })}
           />
