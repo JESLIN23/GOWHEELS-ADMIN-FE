@@ -10,12 +10,15 @@ import BookingPage from './Pages/BookingPage/BookingPage';
 import RootLayout from './components/Layout/RootLayout/RootLayout';
 import OffersPage from './Pages/OffersPage/OffersPage';
 import LoginPage from './Pages/LoginPage/LoginPage';
+import OnServicePage from './Pages/CarsOnService/OnServiceCars';
 import UserLayout from './components/Layout/UserLayout/UserLayout';
 import Unauthorized from './Pages/Unauthorized/Unauthorized';
-import UserDetailsPage from './Pages/UserDetails/UserDetails'
-import Offline from './Pages/Offline/Offline'
-import CarDetailsPage from './Pages/CarDetails/CarDetails'
+import UserDetailsPage from './Pages/UserDetails/UserDetails';
+import Offline from './Pages/Offline/Offline';
+import CarDetailsPage from './Pages/CarDetails/CarDetails';
 import CarFormPage from './Pages/CarForm/CarForm';
+import OrderDetailsPage from './Pages/OrderDetails/OrderDetails';
+import OrderPage from './Pages/Orders/OrdersPage';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +34,10 @@ const router = createBrowserRouter([
       { path: `${ROUTES.CAR_DETAILS}`, element: <CarDetailsPage /> },
       { path: `${ROUTES.CAR_EDIT}`, element: <CarFormPage /> },
       { path: `${ROUTES.CAR_CREATE}`, element: <CarFormPage /> },
+      { path: `${ROUTES.ON_SERVICE}`, element: <OnServicePage /> },
+      { path: `${ROUTES.ON_SERVICE_DETAILS}`, element: <OrderDetailsPage /> },
+      { path: `${ROUTES.ORDERS}`, element: <OrderPage /> },
+      { paht: `${ROUTES.ORDER_DETAILS}`, element: <OrderDetailsPage /> },
       { path: `${ROUTES.BOOKING}`, element: <BookingPage /> },
       { path: `${ROUTES.OFFERS}`, element: <OffersPage /> },
     ],

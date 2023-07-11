@@ -48,15 +48,34 @@
 .carImg {
   text-align: center;
 }
+.heading {
+  margin: 15px 0 15px 0 !important;
+}
+.heading span {
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.9);
+}
+.imgName {
+  display: grid;
+  justify-items: center;
+  font-size: 16px;
+}
 
 @media (min-width: 900px) {
   .carImg {
     min-height: 100%;
     padding-top: 2rem !important;
   }
-  .carInfo {
-    min-height: 33.2rem;
+  .imgSep {
+    margin-top: 30px !important;
   }
+  .imgName {
+    margin-top: 20px !important;
+  }
+  /* .carInfo {
+    min-height: 33.2rem;
+  } */
   .carName {
     padding-top: 1rem;
   }

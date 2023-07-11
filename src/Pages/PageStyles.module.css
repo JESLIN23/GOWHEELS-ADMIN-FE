@@ -76,6 +76,10 @@
 .searchIcon {
   font-size: 28px;
 }
+.searchIcon:hover {
+  transform: scale(1.1);
+  color: var(--btnColor);
+}
 
 .cardsWrapper {
   display: flex;

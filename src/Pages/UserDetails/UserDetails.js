@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
 import { ROUTES } from '../../const';
-import PageStyles from '../PageStyles.module.css'
+import PageStyles from '../PageStyles.module.css';
 import Info from '../../utils/Alerts/Info';
 import ConfirmPopup from '../../utils/Alerts/ConfirmPopup';
 import Loader from '../../utils/Loading/loading';
@@ -39,10 +39,7 @@ function UserDetails() {
       } else {
         data = { active: true };
       }
-      const response = await UserServices.updateUser(
-        userActivityData.id,
-        data
-      );
+      const response = await UserServices.updateUser(userActivityData.id, data);
       let successMsg;
       if (response?.active === false) {
         successMsg = 'User deactivated successfully';
@@ -63,14 +60,19 @@ function UserDetails() {
     const { signal } = abortController;
 
     const findUser = async () => {
-      setLoadingIndicator(true);
+      if (isMounted) {
+        setLoadingIndicator(true);
+      }
       try {
         const response = await UserServices.getUser(userId, signal);
         isMounted && setCustomer(response);
       } catch (error) {
         if (isMounted) postErrorAlert(error.message);
+      } finally {
+        if (isMounted) {
+          setLoadingIndicator(false);
+        }
       }
-      setLoadingIndicator(false);
     };
 
     findUser().then();
@@ -98,7 +100,7 @@ function UserDetails() {
           alertMessage={
             userActivityData?.active === true
               ? "Deactivated user can't use your website, do you want to deactivate this user?"
-              : 'This is a deactivated user, do you want to activate this user ?' 
+              : 'This is a deactivated user, do you want to activate this user ?'
           }
           handleClose={() => {
             setUserActivityData({});

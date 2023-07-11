@@ -17,7 +17,16 @@ function CarListItem({ data, link, editHandler, deleteHandler }) {
   const onDeleteButtonClicked = () => deleteHandler(data);
   const navigateToDetailsPage = () => navigate(link);
 
-  const { name, brand, price, fuel, seating_capacity, transmission, segment } = data;
+  const {
+    name,
+    brand,
+    price,
+    fuel,
+    seating_capacity,
+    transmission,
+    segment,
+    booked,
+  } = data;
 
   return (
     <div className={styles.cardWrapper}>
@@ -43,7 +52,7 @@ function CarListItem({ data, link, editHandler, deleteHandler }) {
       />
       {name && (
         <span onClick={navigateToDetailsPage} className={styles.title}>
-          {brand}  {name} 
+          {brand} {name}
         </span>
       )}
       <Grid container rowSpacing={1} columnSpacing={2}>
@@ -88,7 +97,14 @@ function CarListItem({ data, link, editHandler, deleteHandler }) {
           </Grid>
         </Grid>
       </Grid>
-      {price && <span className={styles.price}>{price}</span>}
+      <div className={styles.actionWrapper}>
+        {booked ? (
+          <span className={styles.bookedBtn}>{`Booked`}</span>
+        ) : (
+          <span></span>
+        )}
+        {price && <span className={styles.price}>{price}</span>}
+      </div>
     </div>
   );
 }

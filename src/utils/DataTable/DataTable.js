@@ -19,6 +19,10 @@ function DataTable(props) {
   const filteredColumns = columns.filter((col) => col.type !== 'rowClick');
 
   const getValueForCell = (data, key) => {
+    if (key.includes('.')) {
+      let keysArr = key.split('.');
+      return data[keysArr[0]][keysArr[1]];
+    }
     return data[key];
   };
   
@@ -45,7 +49,6 @@ function DataTable(props) {
               onClick={() => (rowClicker ? rowClicker.clickHandler(row) : '')}
             >
               {filteredColumns.map((col) => {
-                
                 const rowValue = getValueForCell(row, col.id);
                 let value = '-';
                 try {

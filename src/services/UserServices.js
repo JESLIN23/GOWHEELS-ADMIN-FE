@@ -1,4 +1,5 @@
 import ApiHelper from '../helpers/ApiHelper';
+import DateConvertion from '../helpers/LocalDateString';
 
 const getAllUser = async (query) => {
   const url = `/users${query}`;
@@ -7,7 +8,14 @@ const getAllUser = async (query) => {
     method: 'GET',
     requireAuth: true,
   });
-  return users.data.document;
+
+  const res = users.data.document;
+  const data = res.map((el) => {
+    const dateString = DateConvertion.LocalDateString(el?.date_of_birth);
+    return { ...el, date_of_birth: dateString };
+  });
+
+  return data;
 };
 
 const getUser = async (userId, signal) => {
@@ -20,16 +28,9 @@ const getUser = async (userId, signal) => {
   });
 
   const res = response.data.document;
-  const date = new Date(response?.data?.document?.date_of_birth);
-  const localDateString = date.toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
-  });
+  const dateString = DateConvertion.LocalDateString(res?.date_of_birth);
 
-  console.log(response);
-
-  return { ...res, date_of_birth: localDateString };
+  return { ...res, date_of_birth: dateString };
 };
 
 const updateUser = async (id, data) => {
@@ -42,15 +43,9 @@ const updateUser = async (id, data) => {
   });
 
   const res = response.data.document;
-  const date = new Date(response?.data?.document?.date_of_birth);
-  const localDateString = date.toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
-  });
+  const dateString = DateConvertion.LocalDateString(res?.date_of_birth);
 
-
-  return { ...res, date_of_birth: localDateString };
+  return { ...res, date_of_birth: dateString };
 };
 
 const UserServices = {

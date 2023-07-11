@@ -1,5 +1,4 @@
-
-import { ROUTES } from "../../const";
+import { ROUTES } from '../../const';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
 import DriveEtaIcon from '@mui/icons-material/DriveEta';
@@ -10,17 +9,18 @@ import PersonOffIcon from '@mui/icons-material/PersonOff';
 import NoCrashSharpIcon from '@mui/icons-material/NoCrashSharp';
 import CarRepairSharpIcon from '@mui/icons-material/CarRepairSharp';
 import CarRentalSharpIcon from '@mui/icons-material/CarRentalSharp';
+import StyleIcon from '@mui/icons-material/Style';
 
 const NavConfig = [
   {
-    id: "dashboard",
-    name: "Dashboard",
+    id: 'dashboard',
+    name: 'Dashboard',
     path: ROUTES.DASHBOARD,
     icon: DashboardIcon,
   },
   {
-    id: "users",
-    name: "User",
+    id: 'users',
+    name: 'User',
     path: ROUTES.USERS,
     icon: PeopleIcon,
     submenu: [
@@ -28,19 +28,19 @@ const NavConfig = [
         id: 'activeUsers',
         name: 'Active Users',
         path: ROUTES.ACTIVE_USERS,
-        icon: PersonIcon
+        icon: PersonIcon,
       },
       {
         id: 'deactiveUsers',
         name: 'Deactive Users',
         path: ROUTES.DEACTIVE_USERS,
-        icon: PersonOffIcon
-      }
-    ]
+        icon: PersonOffIcon,
+      },
+    ],
   },
   {
-    id: "cars",
-    name: "Cars",
+    id: 'cars',
+    name: 'Cars',
     path: ROUTES.CARS,
     icon: DriveEtaIcon,
     submenu: [
@@ -48,33 +48,39 @@ const NavConfig = [
         id: 'activeCars',
         name: 'Active',
         path: ROUTES.ACTIVE_CARS,
-        icon: NoCrashSharpIcon
+        icon: NoCrashSharpIcon,
       },
       {
         id: 'deactiveCars',
         name: 'Deactive',
         path: ROUTES.DEACTIVE_CARS,
-        icon: CarRepairSharpIcon
+        icon: CarRepairSharpIcon,
       },
-    ]
+    ],
   },
   {
-    id: 'on-serviceCars',
-    name: 'On-service Cars',
-    path: ROUTES.ONSERVICE_CARS,
+    id: 'onService',
+    name: 'On-Service',
+    path: ROUTES.ON_SERVICE,
     icon: CarRentalSharpIcon,
   },
   {
-    id: "bookings",
-    name: "Bookings",
+    id: 'orders',
+    name: 'Orders',
+    path: ROUTES.ORDERS,
+    icon: StyleIcon,
+  },
+  {
+    id: 'bookings',
+    name: 'Bookings',
     path: ROUTES.BOOKING,
     icon: FeaturedPlayListIcon,
   },
   {
-    id: "offers",
-    name: "Offers",
+    id: 'offers',
+    name: 'Offers',
     path: ROUTES.OFFERS,
-    icon: LocalOfferIcon
+    icon: LocalOfferIcon,
   },
 ];
 

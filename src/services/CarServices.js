@@ -1,4 +1,5 @@
 import ApiHelper from '../helpers/ApiHelper';
+import DateConvertion from '../helpers/LocalDateString';
 
 const getAllCars = async (query) => {
   const url = `/car${query}`;
@@ -7,7 +8,15 @@ const getAllCars = async (query) => {
     method: 'GET',
   });
 
-  return response?.data?.document;
+  const res = response?.data?.document;
+  const data = res.map((el) => {
+    const bookedAt = DateConvertion.LocalDateTimeString(el?.BookedAt);
+    const bookedTo = DateConvertion.LocalDateTimeString(el?.BookedTo);
+
+    return { ...el, BookedAt: bookedAt, BookedTo: bookedTo };
+  })
+
+  return data;
 };
 
 const getCar = async (carId, signal) => {
@@ -18,7 +27,15 @@ const getCar = async (carId, signal) => {
     signal,
   });
 
-  return response?.data?.document;
+  const res = response?.data?.document;
+  if (res?.booked) {
+    const bookedAt = DateConvertion.LocalDateTimeString(res?.BookedAt);
+    const bookedTo = DateConvertion.LocalDateTimeString(res?.BookedTo);
+
+    return { ...res, BookedAt: bookedAt, BookedTo: bookedTo };
+  }
+
+  return res;
 };
 
 const createCar = async (data) => {
@@ -43,7 +60,15 @@ const updateCar = async (id, data) => {
     requireAuth: true,
   });
 
-  return response?.data?.document;
+  const res = response?.data?.document;
+  if (res?.booked) {
+    const bookedAt = DateConvertion.LocalDateTimeString(res?.BookedAt);
+    const bookedTo = DateConvertion.LocalDateTimeString(res?.BookedTo);
+
+    return { ...res, BookedAt: bookedAt, BookedTo: bookedTo };
+  }
+
+  return res;
 };
 
 const deleteCar = async (id) => {
