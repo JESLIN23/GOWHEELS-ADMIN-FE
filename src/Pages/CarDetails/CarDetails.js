@@ -65,17 +65,22 @@ function CarDetails() {
     const { signal } = abortController;
 
     const findCar = async () => {
-      setLoadingIndicator(true);
+      if (isMounted) {
+        setLoadingIndicator(true);
+      }
       try {
         const response = await CarServices.getCar(carId, signal);
         isMounted && setCarData(response);
       } catch (error) {
         if (isMounted) postErrorAlert(error.message);
+      } finally {
+        if (isMounted) {
+          setLoadingIndicator(false);
+        }
       }
-      setLoadingIndicator(false);
     };
 
-    findCar().then();
+    findCar();
 
     return () => {
       isMounted = false;

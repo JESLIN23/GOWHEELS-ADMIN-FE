@@ -1,81 +1,38 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import ProtectRoute from '../../components/ProtectRoute';
-// import styles from './CarsPage.module.css';
-import ConfirmPopup from '../../utils/Alerts/ConfirmPopup';
-import {
-  useSearchParams,
-  useNavigate,
-  createSearchParams,
-} from 'react-router-dom';
+import PageStyles from '../PageStyles.module.css';
 import SearchIcon from '@mui/icons-material/Search';
 import Loader from '../../utils/Loading/loading';
-import AlertContextHook from '../../hooks/AlertContextHook';
-import { ROUTES } from '../../const';
-import CarServices from '../../services/CarServices';
-import PageStyles from '../PageStyles.module.css';
-import Info from '../../utils/Alerts/Info';
-import CarListItem from './CarList';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
-import { Button, MenuItem, Menu, Fade } from '@mui/material';
+import { Menu, Fade, MenuItem, Button } from '@mui/material';
 import { city } from '../CarForm/CarDataConfig';
+import { createSearchParams } from 'react-router-dom';
+import AlertContextHook from '../../hooks/AlertContextHook';
+import OrderServices from '../../services/OrderServices';
+import Info from '../../utils/Alerts/Info';
+import { ROUTES } from '../../const';
+import OnServiceCarListItem from './OnServiceCarListItem';
 
-export default function CarsPage() {
+export default function carsOnService() {
   return (
     <ProtectRoute>
-      <Cars />
+      <OnServiceCars />
     </ProtectRoute>
   );
 }
 
-function Cars() {
+function OnServiceCars() {
+  const [loadingIndicator, setLoadingIndicator] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [queryString, setQueryString] = useState({
+    verified: true,
+    closed: false
+  });
+  const [searchText, setSearchText] = useState('');
   const [cars, setCars] = useState(null);
   const [filteredCars, setFilteredCars] = useState(null);
-  const [loadingIndicator, setLoadingIndicator] = useState(false);
-  const [deleteCar, setDeleteCar] = useState({});
-  const [searchText, setSearchText] = useState('');
-  const [carEdit, setCarEdit] = useState({});
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [queryString, setQueryString] = useState({ active: true });
 
-  const { postSuccessAlert, postErrorAlert } = AlertContextHook();
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-
-  const handleSearch = (value) => {
-    setSearchText(value);
-    let searchCars = cars
-      ? cars.filter(
-          (car) =>
-            car.name.toLowerCase().includes(value.toLowerCase()) ||
-            car.transmission.toLowerCase().includes(value.toLowerCase()) ||
-            car.brand.toLowerCase().includes(value.toLowerCase()) ||
-            car.fuel.toLowerCase().includes(value.toLowerCase()) ||
-            car.segment.toLowerCase().includes(value.toLowerCase())
-        )
-      : [];
-    setFilteredCars(searchCars);
-  };
-
-  const clinkDeleteCarHandler = (data) => {
-    setDeleteCar(data);
-  };
-
-  const deleteCarHandler = async (data) => {
-    setLoadingIndicator(true);
-    try {
-      const id = data.id;
-      await CarServices.deleteCar(id);
-      postSuccessAlert('Car deleted successfully');
-      await getCars();
-    } catch (error) {
-      postErrorAlert(error.message);
-    }
-    setLoadingIndicator(false);
-  };
-
-  const navigateToCreateCar = () => {
-    navigate(ROUTES.CAR_CREATE);
-  };
+  const { postErrorAlert } = AlertContextHook();
 
   const handleFilterMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -83,12 +40,27 @@ function Cars() {
   const handleFilterMenuClose = () => {
     setAnchorEl(null);
   };
+  const handleSearch = (value) => {
+    setSearchText(value);
+    let searchCars = cars
+      ? cars.filter(
+          (car) =>
+            car.car.name.toLowerCase().includes(value.toLowerCase()) ||
+            car.car.transmission.toLowerCase().includes(value.toLowerCase()) ||
+            car.car.brand.toLowerCase().includes(value.toLowerCase()) ||
+            car.car.fuel.toLowerCase().includes(value.toLowerCase()) ||
+            car.car.segment.toLowerCase().includes(value.toLowerCase()) ||
+            car.status.toLowerCase().includes(value.toLowerCase())
+        )
+      : [];
+    setFilteredCars(searchCars);
+  };
 
-  const getCars = useCallback(async () => {
+  const getOnServiceCars = useCallback(async () => {
     setLoadingIndicator(true);
     try {
       let query = `?${createSearchParams(queryString)}`;
-      const res = await CarServices.getAllCars(query);
+      const res = await OrderServices.getAllOrder(query);
       setCars(res);
       setFilteredCars(res);
     } catch (error) {
@@ -98,39 +70,12 @@ function Cars() {
   }, [queryString]);
 
   useEffect(() => {
-    const newParams = Object.fromEntries([...searchParams]);
-    if (newParams?.active === 'false') {
-      setQueryString({ ...queryString, active: 'false' });
-    } else if (newParams?.active === 'true') {
-      setQueryString({ ...queryString, active: 'true' });
-    } else {
-      navigate({
-        pathname: '/cars',
-        search: `?${createSearchParams(queryString)}`,
-      });
-    }
-  }, [searchParams]);
-
-  useEffect(() => {
-    if (carEdit?.id) {
-      navigate(ROUTES.CAR_EDIT.replace(':carId', carEdit.id));
-    }
-  }, [carEdit]);
-
-  useEffect(() => {
-    navigate({
-      pathname: '/cars',
-      search: `?${createSearchParams(queryString)}`,
-    });
-  }, [queryString]);
-
-  useEffect(() => {
-    getCars();
+    getOnServiceCars();
   }, [queryString]);
 
   return (
     <div className={PageStyles.contentWrapper}>
-      {Object.keys(deleteCar).length > 0 && (
+      {/* {Object.keys(deleteCar).length > 0 && (
         <ConfirmPopup
           data={deleteCar}
           cancelBtnName={'cancel'}
@@ -142,11 +87,11 @@ function Cars() {
           handleClose={clinkDeleteCarHandler}
           handleOkey={deleteCarHandler}
         />
-      )}
+      )} */}
       <Loader isOpen={loadingIndicator} />
       <div className={PageStyles.titleSec}>
         <h2 className={PageStyles.title}>
-          {queryString?.active === true ? `Active Cars` : `Deactive Cars`}
+          {'On-Service'}
           <span className={PageStyles.menuName}>Management</span>
         </h2>
         <div className={PageStyles.titleSecRight}>
@@ -194,9 +139,6 @@ function Cars() {
               ))}
             </Menu>
           </div>
-          <span className={PageStyles.coloredBtn} onClick={navigateToCreateCar}>
-            ADD NEW CAR
-          </span>
         </div>
       </div>
       <div className={PageStyles.searchPart}>
@@ -218,28 +160,27 @@ function Cars() {
         {cars && cars.length
           ? filteredCars && filteredCars.length
             ? filteredCars.map((filteredCar) => (
-                <CarListItem
+                <OnServiceCarListItem
                   key={filteredCar.id}
                   data={filteredCar}
-                  link={ROUTES.CAR_DETAILS.replace(':carId', filteredCar.id)}
-                  editHandler={(car) => {
-                    setCarEdit(car);
-                  }}
-                  deleteHandler={clinkDeleteCarHandler}
+                  link={ROUTES.ON_SERVICE_DETAILS.replace(
+                    ':orderId',
+                    filteredCar.id
+                  )}
                 />
               ))
             : !loadingIndicator && (
                 <Info
                   title={'No cars to list'}
                   content={
-                    'You have no car to list with current filter configuration. Please clear the filters or add cars'
+                    'You have no car to list with current filter configuration.'
                   }
                 />
               )
           : !loadingIndicator && (
               <Info
                 title={'No car to list'}
-                content={'You have no car to list. Please add cars'}
+                content={'No car is currently in service.'}
               />
             )}
       </div>

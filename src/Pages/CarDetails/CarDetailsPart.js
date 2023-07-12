@@ -115,7 +115,7 @@ function CarDetailsPart(props) {
                     {data?.price}
                   </Grid>
                   <Grid item xs={12} className={styles.info1}>
-                    {data?.booked === true ? 'Booked' : 'Not Booked'}
+                    {data?.active_bookings.length ? 'Booked' : 'Not Booked'}
                   </Grid>
                 </Grid>
               </Grid>

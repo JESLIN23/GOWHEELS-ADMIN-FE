@@ -14,7 +14,9 @@ function RootLayout() {
           <NaveBar />
         </div>
         <div className={styles.ContentsArea}>
-          <Outlet />
+          <div className={styles.ContentsView}>
+            <Outlet />
+          </div>
         </div>
       </div>
     </>

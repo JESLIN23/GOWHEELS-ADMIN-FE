@@ -62,9 +62,16 @@
     margin-top: 5px;
     font-size: 15px;
     font-weight: 700;
-    align-self: flex-end;
   }
 
   .specs {
     font-size: 11px;
+  }
+
+  .bookedBtn {
+    font-size: 9px;
+    color: #fff!important;
+    background-color: rgb(83, 164, 107)!important;
+    padding: 4px 6px;
+    border-radius: 6px;
   }

@@ -37,7 +37,7 @@ function ConfirmPopup(props) {
             }}
             color="primary"
           >
-            {cancelBtnName}
+            {cancelBtnName || 'cancel'}
           </Button>
           <Button
             onClick={() => {
@@ -46,7 +46,7 @@ function ConfirmPopup(props) {
             }}
             autoFocus
           >
-            {successBtnName}
+            {successBtnName || 'success'}
           </Button>
         </DialogActions>
       </Dialog>
