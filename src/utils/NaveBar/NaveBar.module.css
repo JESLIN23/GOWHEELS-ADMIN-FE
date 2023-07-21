@@ -56,7 +56,7 @@
 }
 
 .navLinkWrapper:hover {
-  background-color: var(--secondaryColor);
+  background: var(--secondaryGradient);
   color: white;
 }
 .navLinkWrapper:hover .navLink {
@@ -71,7 +71,7 @@
   color: #404040;
 }
 .activeNavLink {
-  background-color: var(--secondaryColor);
+  background: var(--secondaryGradient);
   color: white;
 }
 .activeNavLinkIcon {

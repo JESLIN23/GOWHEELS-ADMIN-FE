@@ -6,13 +6,16 @@ import reportWebVitals from './reportWebVitals';
 
 import { UserProvider } from './context/UserContext';
 import { AlertMessageProvider } from './context/AlertMessageContext';
+import { OrderProvider } from './context/OrderContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <UserProvider>
       <AlertMessageProvider>
-        <App />
+        <OrderProvider>
+          <App />
+        </OrderProvider>
       </AlertMessageProvider>
     </UserProvider>
   </React.StrictMode>

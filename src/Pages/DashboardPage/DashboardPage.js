@@ -1,10 +1,11 @@
-import React from 'react';
-// import Loader from '../../utils/Loading/loading';
+import React, { useState, useCallback, useEffect } from 'react';
+import Loader from '../../utils/Loading/loading';
 import styles from './Dashboard.module.css';
-import PageStyles from '../PageStyles.module.css'
+import PageStyles from '../PageStyles.module.css';
 import ProtectRoute from '../../components/ProtectRoute';
-import Grid from '@mui/material/Grid';
-
+import { Grid, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import AlertContextHook from '../../hooks/AlertContextHook';
+import OrderServices from '../../services/OrderServices';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -16,6 +17,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { styled } from '@mui/material/styles';
 
 ChartJS.register(
   CategoryScale,
@@ -29,52 +31,135 @@ ChartJS.register(
 
 export default function DashboardPage() {
   return (
-      <ProtectRoute>
-        <Dashboard />
-      </ProtectRoute>
+    <ProtectRoute>
+      <Dashboard />
+    </ProtectRoute>
   );
 }
 
-function Dashboard() {
-  // const [loadingIndicator, setLoadingIndicator] = useState(false);
-  // const [salesGraphData, setSalesGraphData] = useState();
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+  '& .MuiToggleButtonGroup-grouped': {
+    margin: theme.spacing(0.5),
+    border: '1px solid #C6C6C6',
+  },
+}));
+const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
+  width: 150,
+  color: theme.palette.grey[800],
+  '&:hover, .&Mui-selected': {
+    backgroundColor: 'red',
+  }
+}));
 
-  // console.log(salesGraphData);
-  const datas = [
-    { year: 2010, count: 10 },
-    { year: 2011, count: 20 },
-    { year: 2012, count: 15 },
-    { year: 2013, count: 25 },
-    { year: 2014, count: 22 },
-    { year: 2015, count: 30 },
-    { year: 2016, count: 28 },
+function Dashboard() {
+  const [loadingIndicator, setLoadingIndicator] = useState(false);
+  const [salesGraphData, setSalesGraphData] = useState([]);
+  const [year, setYear] = useState(2023);
+
+  const { postErrorAlert } = AlertContextHook();
+
+  const getGraphData = (city) => {
+    const data =
+      (salesGraphData || []).find((data) => data._id === city)?.months || {};
+    const monthCount = labels.map((label) => data[label] || 0);
+    return monthCount;
+  };
+
+  const handleChangeYear = (event, nextView) => {
+    if (nextView === year) {
+      return;
+    }
+    setYear(nextView);
+  };
+
+  const labels = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
+  const mergedData = [
+    ...getGraphData('calicut'),
+    ...getGraphData('kochi'),
+    ...getGraphData('malappuram'),
+  ];
+  const maxValue = Math.max(...mergedData);
+
+  const options = {
+    responsive: true,
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
+    stacked: false,
+    plugins: {
+      title: {
+        display: true,
+        text: `Sales chart based on cities in ${year}`,
+      },
+    },
+    scales: {
+      y: {
+        type: 'linear',
+        display: true,
+        position: 'left',
+        max: maxValue,
+        min: 0,
+      },
+    },
+  };
+
   const data = {
-    labels: datas.map((date) => date.year),
+    labels,
     datasets: [
       {
-        data: datas.map((val) => val.count),
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1,
-        label: 'Sales graph',
-        position: 'bottom',
-        backgroundColor: '#605ca8',
+        label: 'Calicut',
+        data: getGraphData('calicut'),
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      {
+        label: 'Kochi',
+        data: getGraphData('kochi'),
+        borderColor: 'rgb(53, 162, 235)',
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      },
+      {
+        label: 'Malappuram',
+        data: getGraphData('malappuram'),
+        borderColor: 'rgb(34, 198, 49)',
+        backgroundColor: 'rgba(34, 198, 49, 0.5)',
       },
     ],
   };
-  // const salesReportData = useCallback( async () => {
 
-  // }, []);
+  const salesReportData = useCallback(async () => {
+    setLoadingIndicator(true);
+    try {
+      const resp = await OrderServices.orderGraph(year);
+      setSalesGraphData(resp);
+    } catch (error) {
+      postErrorAlert(error.message);
+    }
+    setLoadingIndicator(false);
+  }, [year]);
 
-  // useEffect(() => {
-  //   //  salesReportData().then();
-  // }, []);
+  useEffect(() => {
+    salesReportData();
+  }, [year]);
 
   return (
     <div className={PageStyles.contentWrapper}>
-      {/* <Loader isOpen={loadingIndicator} /> */}
+      <Loader isOpen={loadingIndicator} />
       <div className={PageStyles.titleSec}>
         <span className={PageStyles.title}>
           Sales <span className={PageStyles.menuName}>Dashboard</span>
@@ -85,8 +170,23 @@ function Dashboard() {
           <h2 className={styles.chartTitle}>Sales overview chart</h2>
         </div>
         <Grid container spacing={3}>
-          <Grid item sm={12} className={styles.chart}>
-            <Line data={data} />
+          <Grid item xs={12} md={9} className={styles.chart}>
+            <Line options={options} data={data} />
+          </Grid>
+          <Grid item xs={12} md={3} className={styles.yearContainer}>
+            <StyledToggleButtonGroup
+              orientation="vertical"
+              value={year}
+              exclusive
+              onChange={handleChangeYear}
+            >
+              <StyledToggleButton value={2022} aria-label="list">
+                2022
+              </StyledToggleButton>
+              <StyledToggleButton value={2023} aria-label="module">
+                2023
+              </StyledToggleButton>
+            </StyledToggleButtonGroup>
           </Grid>
         </Grid>
       </div>

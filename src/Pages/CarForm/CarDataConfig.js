@@ -23,9 +23,9 @@ export const brandNames = [
 ]
 
 export const city = [
-    'Calicut',
-    'Malappuram',
-    'Kochi',
+    'calicut',
+    'malappuram',
+    'kochi',
 ]
 
 export const fuel = [

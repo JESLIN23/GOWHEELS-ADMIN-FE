@@ -9,13 +9,12 @@ const getAllUser = async (query) => {
     requireAuth: true,
   });
 
-  const res = users.data.document;
-  const data = res.map((el) => {
+  const document = users?.data?.document.map((el) => {
     const dateString = DateConvertion.LocalDateString(el?.date_of_birth);
     return { ...el, date_of_birth: dateString };
   });
 
-  return data;
+  return { ...users, data: { document } };
 };
 
 const getUser = async (userId, signal) => {

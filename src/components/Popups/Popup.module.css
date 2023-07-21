@@ -1,0 +1,14 @@
+.inputRow {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 15px;
+}
+.inputLabelContainer {
+  display: flex;
+}
+.inputLabel {
+  font-size: 13px;
+  font-weight: 600;
+  padding-right: 30px;
+  text-align: end;
+}

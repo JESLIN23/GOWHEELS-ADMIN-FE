@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ProtectRoute from '../../components/ProtectRoute';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, createSearchParams } from 'react-router-dom';
 
-import PageStyles from '../PageStyles.module.css'
+import PageStyles from '../PageStyles.module.css';
 import Loader from './../../utils/Loading/loading';
 import Info from './../../utils/Alerts/Info';
 import DataTable from '../../utils/DataTable/DataTable';
@@ -12,6 +12,7 @@ import UserServices from '../../services/UserServices';
 import SearchIcon from '@mui/icons-material/Search';
 import AlertMessageContext from '../../context/AlertMessageContext';
 import { ROUTES } from '../../const';
+import { Paper, TablePagination } from '@mui/material';
 // import UserDetails from '../../components/Popups/UserDetails/UserDetails';
 
 export default function UserPage() {
@@ -30,10 +31,20 @@ function User() {
   const [userActivityData, setUserActivityData] = useState({});
   const [userDetails, setUserDetails] = useState({});
   const [userManagement, setUserManagement] = useState(true);
+  const [userCount, setUserCount] = useState(null);
+  const [pagination, setPagination] = useState({ page: 1, limit: 10 });
 
   const [searchParams] = useSearchParams();
   const { postErrorAlert, postSuccessAlert } = useContext(AlertMessageContext);
   const navigate = useNavigate();
+
+  const handleChangePage = (event, newPage) => {
+    setPagination({ ...pagination, page: newPage + 1 });
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setPagination({ ...pagination, page: 0, limit: +event.target.value });
+  };
 
   useEffect(() => {
     const newParams = Object.fromEntries([...searchParams]);
@@ -76,7 +87,7 @@ function User() {
     setLoadingIndicator(false);
   }, [userActivityData]);
 
-  const toggleDetailsTab = async (data) => {
+  const toggleDetailsTab = (data) => {
     setUserDetails(data);
   };
 
@@ -191,19 +202,21 @@ function User() {
     setLoadingIndicator(true);
     try {
       let query;
+      const paginationQuery = `&${createSearchParams(pagination)}`;
       if (userManagement === true) {
-        query = `?active=true`;
+        query = `?active=true${paginationQuery}`;
       } else {
-        query = `?active=false`;
+        query = `?active=false${paginationQuery}`;
       }
       const res = await UserServices.getAllUser(query);
-      setUsers(res);
-      setFilteredUsers(res);
+      setUsers(res?.data?.document);
+      setFilteredUsers(res?.data?.document);
+      setUserCount(res?.results);
     } catch (error) {
       postErrorAlert(error.message);
     }
     setLoadingIndicator(false);
-  }, [userManagement]);
+  }, [userManagement, pagination]);
 
   useEffect(() => {
     if (userDetails?._id) {
@@ -213,7 +226,7 @@ function User() {
 
   useEffect(() => {
     getUsers().then();
-  }, [userManagement]);
+  }, [userManagement, pagination]);
 
   return (
     <div className={PageStyles.contentWrapper}>
@@ -221,9 +234,9 @@ function User() {
         <ConfirmPopup
           data={userActivityData}
           cancelBtnName={'cancel'}
-          successBtnName={userActivityData?.active === true
-            ? 'Deactivate'
-            : 'Activate'}
+          successBtnName={
+            userActivityData?.active === true ? 'Deactivate' : 'Activate'
+          }
           alertTitle={
             userActivityData?.active === true
               ? 'Confirm delete'
@@ -262,12 +275,23 @@ function User() {
       </div>
       {users && users.length ? (
         filteredUsers && filteredUsers.length ? (
-          <DataTable
-            columns={
-              userManagement ? activeUsersHeaderData : deactiveUsersHeaderData
-            }
-            rows={filteredUsers ? filteredUsers : users}
-          />
+          <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+            <DataTable
+              columns={
+                userManagement ? activeUsersHeaderData : deactiveUsersHeaderData
+              }
+              rows={filteredUsers ? filteredUsers : users}
+            />
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={userCount}
+              rowsPerPage={pagination.limit}
+              page={pagination.page - 1}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
         ) : (
           <Info
             title={'No customers to list'}
@@ -279,9 +303,7 @@ function User() {
       ) : (
         <Info
           title={'No customers to list'}
-          content={
-            'You have no customers to list. Please add users'
-          }
+          content={'You have no customers to list. Please add users'}
         />
       )}
       {/* {Object.keys(userDetails).length > 0 && (

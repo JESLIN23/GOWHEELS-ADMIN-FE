@@ -81,12 +81,23 @@ const cancelOrder = async (id) => {
   return { ...res, pickup_date, dropoff_date };
 };
 
+const orderGraph = async (year) => {
+  const url = `/order/order-chart?year=${year}`
+  const response = await ApiHelper.request({
+    url,
+    method: 'GET',
+    requireAuth: true,
+  })
+  return response?.data?.document;
+}
+
 const OrderServices = {
   closeOrder,
   updateOrder,
   getOrder,
   getAllOrder,
   cancelOrder,
+  orderGraph,
 };
 
 export default OrderServices;

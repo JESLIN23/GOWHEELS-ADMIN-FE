@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Loader from '../../utils/Loading/loading';
 import OrderServies from '../../services/OrderServices';
 import { ROUTES } from '../../const';
+import AlertContextHook from '../../hooks/AlertContextHook';
 
 export default function Orders() {
   return (
@@ -21,11 +22,13 @@ function OrdersPage() {
   const [loadingIndicator, setLoadingIndicator] = useState(false);
   const [searchText, setSearchText] = useState(null);
   const [orders, setOrders] = useState(null);
+  const [orderDetails, setOrderDetails] = useState({});
 
+  const { postErrorAlert } = AlertContextHook();
   const navigate = useNavigate();
 
   const toggleDetailsTab = (data) => {
-    navigate(ROUTES.ORDER_DETAILS.replace(':orderId', data._id));
+    setOrderDetails(data);
   };
 
   const orderTableHeaders = [
@@ -85,11 +88,17 @@ function OrdersPage() {
         response = await OrderServies.getAllOrder();
       }
     } catch (error) {
-      console.error(error.message);
+      postErrorAlert(error.message);
     }
-    setOrders(response)
+    setOrders(response);
     setLoadingIndicator(false);
   };
+
+  useEffect(() => {
+    if (orderDetails?._id) {
+      navigate(ROUTES.ORDERS_DETAILS.replace(':orderId', orderDetails?._id));
+    }
+  }, [orderDetails]);
 
   useEffect(() => {
     getOrders();
