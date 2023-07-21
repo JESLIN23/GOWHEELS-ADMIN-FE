@@ -25,9 +25,12 @@ const request = async (option, retry = 0) => {
     );
   }
 
-  window.addEventListener('offline', function () {
-    console.log('you are offline');
-  });
+  // window.addEventListener('offline', function () {
+  //   throw new Error('You are offline');
+  // });
+  if (!navigator.onLine) {
+    throw new Error('You are offline');
+  }
 
   option.headers = option.headers || {};
   if (option.requireAuth) {
@@ -38,7 +41,6 @@ const request = async (option, retry = 0) => {
   }
 
   try {
-    console.log(option);
     const response = await axios(option);
     return response.data;
   } catch (error) {
@@ -54,11 +56,7 @@ const request = async (option, retry = 0) => {
     }
 
     // const body = response.data || {};
-    // if (
-    //   response.status === 401 &&
-    //   body.code !== "ACCESS_TOKEN_EXPIRED" &&
-    //   body.code !== "MISSING_AUTH_TOKEN"
-    // ) {
+    // if (response.status === 401) {
     //   localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
     //   localStorage.removeItem(STORAGE_KEYS.REFRESH_TOKEN);
     //   window.location.reload();

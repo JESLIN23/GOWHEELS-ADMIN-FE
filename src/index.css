@@ -10,6 +10,7 @@
   --primaryColor: #43d7c8;
   --btnColor: #00cdb8;
   --secondaryColor: #18776d;
+  --secondaryGradient: linear-gradient(84deg, rgba(24,119,109,1) 33%, rgba(43,150,138,1) 100%);
   --infoColor: #b6f6ef;
 
   --h1FontSize: 32px;

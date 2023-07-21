@@ -10,15 +10,15 @@ import ProtectRoute from '../../components/ProtectRoute';
 import ConfirmPopup from '../../utils/Alerts/ConfirmPopup';
 import OrderDetailsPart from './OrderDetailsPart';
 
-export default function CarDetails() {
+export default function OrderDetailsPage() {
   return (
     <ProtectRoute>
-      <CarDetailsPage />
+      <OrderDetails />
     </ProtectRoute>
   );
 }
 
-function CarDetailsPage() {
+function OrderDetails() {
   const [loadingIndicator, setLoadingIndicator] = useState(false);
   const [orderData, setOrderData] = useState(null);
   const [orderCancelConfirmation, setOrderCancelConfirmation] = useState(false);

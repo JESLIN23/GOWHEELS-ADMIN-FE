@@ -2,7 +2,7 @@ import ApiHelper from '../helpers/ApiHelper';
 import { STORAGE_KEYS } from '../const';
 
 const login = async (data) => {
-  const url = `/auth/login`;
+  const url = `/auth//login-admin`;
   const response = await ApiHelper.request({
     url,
     method: 'POST',
@@ -20,6 +20,7 @@ const logout = async () => {
   if (!refreshToken) {
     return;
   }
+  localStorage.clear()
   const url = `/auth/logout`;
   const response = await ApiHelper.request({
     url,
