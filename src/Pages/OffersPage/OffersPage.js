@@ -1,12 +1,9 @@
 import React from 'react';
-import ProtectRoute from '../../components/ProtectRoute';
 import PageStyles from '../PageStyles.module.css';
 
 export default function OffersPage() {
   return (
-    <ProtectRoute>
       <Offers />
-    </ProtectRoute>
   );
 }
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import ProtectRoute from '../../components/ProtectRoute';
 import { useNavigate, createSearchParams } from 'react-router-dom';
 
 import PageStyles from '../PageStyles.module.css';
@@ -17,9 +16,7 @@ import { Paper, TablePagination } from '@mui/material';
 
 export default function UserPage() {
   return (
-    <ProtectRoute>
       <User />
-    </ProtectRoute>
   );
 }
 

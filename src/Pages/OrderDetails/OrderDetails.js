@@ -6,15 +6,12 @@ import Info from '../../utils/Alerts/Info';
 import { useParams, useNavigate } from 'react-router-dom';
 import AlertContextHook from '../../hooks/AlertContextHook';
 import OrderServices from '../../services/OrderServices';
-import ProtectRoute from '../../components/ProtectRoute';
 import ConfirmPopup from '../../utils/Alerts/ConfirmPopup';
 import OrderDetailsPart from './OrderDetailsPart';
 
 export default function OrderDetailsPage() {
   return (
-    <ProtectRoute>
       <OrderDetails />
-    </ProtectRoute>
   );
 }
 

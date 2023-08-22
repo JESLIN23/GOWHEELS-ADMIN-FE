@@ -3,7 +3,6 @@ import PageStyles from '../PageStyles.module.css';
 import { useNavigate, createSearchParams } from 'react-router-dom';
 import Info from '../../utils/Alerts/Info';
 import DataTable from '../../utils/DataTable/DataTable';
-import ProtectRoute from '../../components/ProtectRoute';
 import SearchIcon from '@mui/icons-material/Search';
 import Loader from '../../utils/Loading/loading';
 import OrderServies from '../../services/OrderServices';
@@ -12,9 +11,7 @@ import AlertContextHook from '../../hooks/AlertContextHook';
 
 export default function Orders() {
   return (
-    <ProtectRoute>
       <OrdersPage />
-    </ProtectRoute>
   );
 }
 

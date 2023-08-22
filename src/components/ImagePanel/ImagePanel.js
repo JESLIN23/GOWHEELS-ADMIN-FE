@@ -9,9 +9,14 @@ import ImageUpload from '../ImageUpload/ImageUpload';
 function ImagePanel({ images, addImage, removeImage }) {
   return (
     <div className={styles.layout}>
-      <ImageUpload onImageSelected={addImage}/>
+      <ImageUpload onImageSelected={addImage} />
       <div>Images</div>
-      <ImageList className={styles.imageWrapper} sx={{ minWidth: '100%'}} cols={7} rowHeight={140}>
+      <ImageList
+        className={styles.imageWrapper}
+        sx={{ minWidth: '100%' }}
+        cols={7}
+        rowHeight={140}
+      >
         {images.map((image) => (
           <ImageListItem key={image._id} className={styles.imageItem}>
             <img

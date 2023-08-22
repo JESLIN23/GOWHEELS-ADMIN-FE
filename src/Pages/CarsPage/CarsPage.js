@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import ProtectRoute from '../../components/ProtectRoute';
 // import styles from './CarsPage.module.css';
 import ConfirmPopup from '../../utils/Alerts/ConfirmPopup';
 import {
@@ -21,9 +20,7 @@ import { city } from '../CarForm/CarDataConfig';
 
 export default function CarsPage() {
   return (
-    <ProtectRoute>
       <Cars />
-    </ProtectRoute>
   );
 }
 

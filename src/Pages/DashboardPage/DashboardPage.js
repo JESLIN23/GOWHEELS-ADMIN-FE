@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import Loader from '../../utils/Loading/loading';
 import styles from './Dashboard.module.css';
 import PageStyles from '../PageStyles.module.css';
-import ProtectRoute from '../../components/ProtectRoute';
 import { Grid, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import AlertContextHook from '../../hooks/AlertContextHook';
 import OrderServices from '../../services/OrderServices';
@@ -30,11 +29,7 @@ ChartJS.register(
 );
 
 export default function DashboardPage() {
-  return (
-    <ProtectRoute>
-      <Dashboard />
-    </ProtectRoute>
-  );
+  return <Dashboard />;
 }
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
@@ -48,7 +43,7 @@ const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
   color: theme.palette.grey[800],
   '&:hover, .&Mui-selected': {
     backgroundColor: 'red',
-  }
+  },
 }));
 
 function Dashboard() {

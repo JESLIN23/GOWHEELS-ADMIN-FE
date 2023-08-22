@@ -6,6 +6,7 @@ const getAllCars = async (query) => {
   const response = await ApiHelper.request({
     url,
     method: 'GET',
+    requireAuth: true,
   });
 
   const res = response?.data?.document;
@@ -25,6 +26,7 @@ const getCar = async (carId, signal) => {
     url,
     method: 'GET',
     signal,
+    requireAuth: true,
   });
 
   const res = response?.data?.document;
