@@ -2,7 +2,7 @@ import ApiHelper from '../helpers/ApiHelper';
 import { STORAGE_KEYS } from '../const';
 
 const login = async (data) => {
-  const url = `/auth//login-admin`;
+  const url = `/auth/login-admin`;
   const response = await ApiHelper.request({
     url,
     method: 'POST',

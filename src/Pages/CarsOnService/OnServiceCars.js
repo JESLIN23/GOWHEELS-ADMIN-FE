@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import ProtectRoute from '../../components/ProtectRoute';
 import PageStyles from '../PageStyles.module.css';
 import SearchIcon from '@mui/icons-material/Search';
 import Loader from '../../utils/Loading/loading';
@@ -15,9 +14,7 @@ import OnServiceCarListItem from './OnServiceCarListItem';
 
 export default function carsOnService() {
   return (
-    <ProtectRoute>
       <OnServiceCars />
-    </ProtectRoute>
   );
 }
 

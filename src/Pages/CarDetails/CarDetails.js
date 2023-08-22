@@ -11,13 +11,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import CarServices from '../../services/CarServices';
 import ConfirmPopup from '../../utils/Alerts/ConfirmPopup';
 import CarDetailsPart from './CarDetailsPart';
-import ProtectRoute from '../../components/ProtectRoute';
 
 export default function CarDetails() {
   return (
-    <ProtectRoute>
       <CarDetailsPage />
-    </ProtectRoute>
   );
   function CarDetailsPage() {
     const [loadingIndicator, setLoadingIndicator] = useState(false);

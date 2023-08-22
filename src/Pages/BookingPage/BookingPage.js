@@ -3,7 +3,6 @@ import PageStyles from '../PageStyles.module.css';
 import styles from './bookings.module.css';
 import { createSearchParams } from 'react-router-dom';
 import Info from '../../utils/Alerts/Info';
-import ProtectRoute from '../../components/ProtectRoute';
 import Loader from '../../utils/Loading/loading';
 import OrderServies from '../../services/OrderServices';
 import { ROUTES } from '../../const';
@@ -18,9 +17,7 @@ import CreateOrder from '../../components/Popups/CreateOrder';
 
 export default function BookingPage() {
   return (
-    <ProtectRoute>
       <Booking />
-    </ProtectRoute>
   );
 }
 
