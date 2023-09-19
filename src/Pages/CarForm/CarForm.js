@@ -34,7 +34,7 @@ function CarForm() {
   const _getData = () => {
     return {
       ...carData,
-      images: (carData.images || []).filter((image) => !image.file),
+      images: (carData?.images || []).filter((image) => !image.file),
     };
   };
 

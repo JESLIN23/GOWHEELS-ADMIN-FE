@@ -1,25 +1,25 @@
 export const brandNames = [
     'KIA',
-    'Maruti',
-    'Honda',
-    'Hyundai',
-    'Toyota',
-    'Ford',
+    'maruti',
+    'honda',
+    'hyundai',
+    'toyota',
+    'ford',
     'BMW',
-    'Audi',
-    'Volvo',
-    'Mercedes-Benz',
-    'Nissan',
-    'Tata',
-    'Mahindra',
-    'Renault',
+    'audi',
+    'volvo',
+    'mercedes-Benz',
+    'nissan',
+    'tata',
+    'mahindra',
+    'renault',
     'MG',
-    'Skoda',
-    'Jeep',
-    'Volkswagon',
-    'Land Rover',
-    'Lexus',
-    'Jaguar'
+    'skoda',
+    'Jjeep',
+    'volkswagon',
+    'land rover',
+    'lexus',
+    'jaguar'
 ]
 
 export const city = [
@@ -29,9 +29,9 @@ export const city = [
 ]
 
 export const fuel = [
-    'Petrol',
-    'Diesel',
-    'Electric'
+    'petrol',
+    'diesel',
+    'electric'
 ]
 
 export const seatingCapacity = [
@@ -47,15 +47,15 @@ export const seatingCapacity = [
 
 export const segment = [
     'SUV',
-    'Sedan',
-    'Wagon',
-    'Hatchback',
-    'Convertable',
+    'sedan',
+    'wagon',
+    'hatchback',
+    'convertable',
     'MUV'
 ]
 
 export const transmission = [
-    'Manual',
-    'Automatic',
-    'Semi-automatic'
+    'manual',
+    'automatic',
+    'semi-automatic'
 ]

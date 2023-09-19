@@ -47,7 +47,6 @@ export const UserProvider = ({ children }) => {
       const response = await AuthService.getUserProfile();
       setProfile(response);
     } catch (error) {
-      console.log(error);
       postErrorAlert(error.message);
     }
   }, [setProfile, postErrorAlert]);
