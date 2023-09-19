@@ -15,7 +15,7 @@ const getAllCars = async (query) => {
     const bookedTo = DateConvertion.LocalDateTimeString(el?.BookedTo);
 
     return { ...el, BookedAt: bookedAt, BookedTo: bookedTo };
-  })
+  });
 
   return data;
 };
@@ -54,7 +54,6 @@ const createCar = async (data) => {
 
 const updateCar = async (id, data) => {
   const url = `/car/${id}`;
-  console.log(data);
   const response = await ApiHelper.request({
     url,
     method: 'PATCH',
