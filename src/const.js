@@ -1,5 +1,5 @@
-export const BACKEND_URL = 'https://api-gowheels.cyclic.cloud/api/v1';
 // export const BACKEND_URL = 'http://localhost:6060/api/v1';
+export const BACKEND_URL = 'https://api-gowheels.cyclic.cloud/api/v1';
 
 
 export const ROUTES = {
