@@ -21,7 +21,7 @@ import OrderPage from './Pages/Orders/OrdersPage';
 import { UserProvider } from './context/UserContext';
 import { AlertMessageProvider } from './context/AlertMessageContext';
 import { OrderProvider } from './context/OrderContext';
-import ProtectRoute from './components/ProtectRoute';
+import ProtectRoute from './components/protectRoute';
 
 const router = createBrowserRouter([
   {
