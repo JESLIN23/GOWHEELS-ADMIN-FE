@@ -16,7 +16,7 @@ import UserContext from '../context/UserContext';
 //   return <>{children}</>;
 // }
 
-export default function ProtectedRoute({ element: Element, ...props }) {
+export default function ProtectRoute({ element: Element, ...props }) {
   const { isLoggedIn } = useContext(UserContext);
 
   const isAuthenticated = isLoggedIn();
