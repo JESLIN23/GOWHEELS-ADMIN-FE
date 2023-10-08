@@ -27,8 +27,8 @@
 
   .login {
     height: fit-content;
-    max-width: 600px;
-    min-width: 450px;
+    max-width: 500px;
+    min-width: 400px;
     border-radius: 10px;
     padding: 30px 35px;
     background-color: rgba(255, 255, 255, 0.9);
@@ -54,7 +54,7 @@
     padding: 0.5rem auto;
     background-color: var(--primaryColor);
     font-weight: 500;
-    color: black;
+    color: white;
   }
   .btn Button:hover {
     background-color: var(--secondaryColor);

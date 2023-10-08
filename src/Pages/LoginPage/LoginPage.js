@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from './LoginPage.module.css';
 import Loader from '../../utils/Loading/loading';
-import userContextHook from '../../hooks/userContextHook';
+// import userContextHook from '../../hooks/userContextHook';
 // import AlertMessageContext from '../../context/AlertMessageContext';
 import UserContext from '../../context/UserContext';
 
@@ -26,11 +26,11 @@ function LoginPage() {
   const [dataError, setDataError] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, initiateLogin } = useContext(UserContext);
 
-  const { initiateLogin } = userContextHook();
+  // const { initiateLogin } = userContextHook();
   // const { postErrorAlert } = useContext(AlertMessageContext);
-  const from = location.state?.from?.pathname || '/dashboard';
+  const from = '/dashboard';
 
   const navigate = useNavigate();
 
@@ -44,6 +44,8 @@ function LoginPage() {
       return;
     }
     navigate(from, { replace: true });
+
+     //eslint-disable-next-line
   }, [user]);
 
   const userLoginHandler = async () => {
