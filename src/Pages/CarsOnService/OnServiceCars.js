@@ -64,10 +64,12 @@ function OnServiceCars() {
       postErrorAlert(error.message);
     }
     setLoadingIndicator(false);
-  }, [queryString]);
+  }, [queryString, postErrorAlert]);
 
   useEffect(() => {
     getOnServiceCars();
+
+    //eslint-disable-next-line
   }, [queryString]);
 
   return (
@@ -95,9 +97,6 @@ function OnServiceCars() {
           <div className={PageStyles.filterPart}>
             <Button
               id="fade-button"
-              aria-controls={open ? 'fade-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
               onClick={handleFilterMenuClick}
               endIcon={<FilterAltOutlinedIcon />}
             >
